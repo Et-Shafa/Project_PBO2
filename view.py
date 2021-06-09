@@ -109,7 +109,7 @@ class DataJeniscucian ( wx.Frame ):
 		bSizer2.Add( self.m_grid3, 0, wx.ALL, 5 )
 		
 		
-		bSizer2.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
+		# bSizer2.AddSpacer( ( 0, 0), 1, wx.EXPAND, 5 )
 		
 		gbSizer4 = wx.GridBagSizer( 0, 0 )
 		gbSizer4.SetFlexibleDirection( wx.BOTH )
