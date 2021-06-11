@@ -10,6 +10,7 @@
 import wx
 import wx.xrc
 import wx.grid
+import wx.adv
 
 ###########################################################################
 ## Class Login
@@ -89,6 +90,9 @@ class halaman_utama ( wx.Frame ):
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
 		self.m_menubar2 = wx.MenuBar( 0 )
+		self.tampilUsername = wx.Menu()
+		self.m_menubar2.Append( self.tampilUsername, u"Username" )
+
 		self.m_menu4 = wx.Menu()
 		self.menuProfil = wx.MenuItem( self.m_menu4, wx.ID_ANY, u"Profil", wx.EmptyString, wx.ITEM_NORMAL )
 		self.menuProfil.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_GO_HOME, wx.ART_TOOLBAR ) )
@@ -166,7 +170,7 @@ class halaman_utama ( wx.Frame ):
 		self.dataJenis = wx.grid.Grid( self.jenis, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.dataJenis.CreateGrid( 5, 5 )
+		self.dataJenis.CreateGrid( 2, 2 )
 		self.dataJenis.EnableEditing( True )
 		self.dataJenis.EnableGridLines( True )
 		self.dataJenis.EnableDragGridSize( False )
@@ -335,5 +339,214 @@ class halaman_utama ( wx.Frame ):
 
 	def klikTambahPegawai( self, event ):
 		event.Skip()
+
+
+###########################################################################
+## Class insrtTransaksi
+###########################################################################
+
+class insrtTransaksi ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+		gbSizer2 = wx.GridBagSizer( 0, 0 )
+		gbSizer2.SetFlexibleDirection( wx.BOTH )
+		gbSizer2.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText4 = wx.StaticText( self, wx.ID_ANY, u"Transaksi Baru", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText4.Wrap( -1 )
+
+		gbSizer2.Add( self.m_staticText4, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+
+		self.m_staticText5 = wx.StaticText( self, wx.ID_ANY, u"ID Pelanggan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText5.Wrap( -1 )
+
+		gbSizer2.Add( self.m_staticText5, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		m_choice2Choices = []
+		self.m_choice2 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice2Choices, 0 )
+		self.m_choice2.SetSelection( 0 )
+		gbSizer2.Add( self.m_choice2, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText6 = wx.StaticText( self, wx.ID_ANY, u"Total Pakaian", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText6.Wrap( -1 )
+
+		gbSizer2.Add( self.m_staticText6, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_textCtrl6 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self.m_textCtrl6, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText7 = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText7.Wrap( -1 )
+
+		gbSizer2.Add( self.m_staticText7, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_datePicker2 = wx.adv.DatePickerCtrl( self, wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
+		gbSizer2.Add( self.m_datePicker2, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_button6 = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self.m_button6, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self. = wx.Button( self, wx.ID_ANY, u"Selanjutnya", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self., wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer2 )
+		self.Layout()
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class insrtTransaksi2
+###########################################################################
+
+class insrtTransaksi2 ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+		gbSizer3 = wx.GridBagSizer( 0, 0 )
+		gbSizer3.SetFlexibleDirection( wx.BOTH )
+		gbSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText4 = wx.StaticText( self, wx.ID_ANY, u"Transaksi Baru / Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText4.Wrap( -1 )
+
+		gbSizer3.Add( self.m_staticText4, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText14 = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText14.Wrap( -1 )
+
+		gbSizer3.Add( self.m_staticText14, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		m_choice4Choices = []
+		self.m_choice4 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice4Choices, 0 )
+		self.m_choice4.SetSelection( 0 )
+		gbSizer3.Add( self.m_choice4, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText15 = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText15.Wrap( -1 )
+
+		gbSizer3.Add( self.m_staticText15, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_textCtrl9 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.m_textCtrl9, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_button9 = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.m_button9, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_button10 = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.m_button10, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_button11 = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.m_button11, wx.GBPosition( 3, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer3 )
+		self.Layout()
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class insrtJenis
+###########################################################################
+
+class insrtJenis ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class insrtPelanggan
+###########################################################################
+
+class insrtPelanggan ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class insrtPegawai
+###########################################################################
+
+class insrtPegawai ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class editTransaksi
+###########################################################################
+
+class editTransaksi ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class editJenis
+###########################################################################
+
+class editJenis ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class editPelanggan
+###########################################################################
+
+class editPelanggan ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+
+	def __del__( self ):
+		pass
+
+
+###########################################################################
+## Class editPegawai
+###########################################################################
+
+class editPegawai ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+
+	def __del__( self ):
+		pass
 
 
