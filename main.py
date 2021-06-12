@@ -26,9 +26,10 @@ class tampilhalamanutama(view.halaman_utama):
         self.jns = model.Jenis()
         daftarJenis = self.jns.getDataJenis()
         baris = 0
+        self.lstIdPerson = []
         for col in range(len(koloms)):
             self.dataJenis.SetColLabelValue(col, koloms[col])  # mengubah nama kolom
-        self.lstIdPerson = []
+        
         for jenis_row in daftarJenis:
             self.dataJenis.AppendRows(1)
             print(baris, '. ', jenis_row)
