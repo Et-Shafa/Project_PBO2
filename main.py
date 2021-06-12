@@ -7,11 +7,40 @@ class tampilLogin(view.Login):
     def __init__(self, parent):
         view.Login.__init__(self, parent)
 
+class tampilTambahTransaksi(view.insrtTransaksi):
+    def __init__(self, parent):
+        view.insrtTransaksi.__init__(self, parent.transaksi)
+        self.parent = parent
+
+class tampilTambahTransaksi2(view.insrtTransaksi2):
+    def __init__(self, parent):
+        view.insrtTransaksi2.__init__(self, parent)
+
+class tampilTambahJenis(view.insrtJenis):
+    def __init__(self, parent):
+        view.insrtJenis.__init__(self, parent)
+
+class tampilTambahPelanggan(view.insrtPelanggan):
+    def __init__(self, parent):
+        view.insrtPelanggan.__init__(self, parent)
+
+class tampilTambahPegawai(view.insrtPegawai):
+    def __init__(self, parent):
+        view.insrtPegawai.__init__(self, parent)
 
 class tampilhalamanutama(view.halaman_utama):
     def __init__(self, parent):
         view.halaman_utama.__init__(self, parent)
         self.initData()
+        self.parent = parent
+        self.tampilTambahTransaksi = tampilTambahTransaksi(self)
+        self.tampilTambahPelanggan = tampilTambahPelanggan(self)
+        self.tampilTambahJenis = tampilTambahJenis(self)
+        self.tampilTambahPegawai = tampilTambahPegawai(self)
+        self.tampilTambahTransaksi.Show(False)
+        self.tampilTambahJenis.Show(False)
+        self.tampilTambahPelanggan.Show(False)
+        self.tampilTambahPegawai.Show(False)
 
     def initData(self):
         n_cols = self.dataJenis.GetNumberCols()
@@ -40,6 +69,33 @@ class tampilhalamanutama(view.halaman_utama):
             # self.dataJenis.SetCellAlignment(wx.ALIGN_CENTER, baris,3 )
             self.lstIdPerson.append(id_jenis)
             baris += 1
+
+
+    def klikProfil( self, event ):
+        event.Skip()
+
+    def klikLogout( self, event ):
+        dlg = wx.MessageDialog(self, "Apakah anda yakin akan Logout dari apalikasi", "Logout", style=wx.YES_NO)
+        pilih = dlg.ShowModal()
+        if pilih == wx.ID_YES:
+            self.Destroy()
+            tampilLogin(None).Show()
+        else:
+            pass
+
+    def klikTambahTransaksi( self, event ):
+        self.tampilTambahTransaksi.Show(True)
+        self.transaksi.Show(False)
+
+    def klikTambahJenis( self, event ):
+        event.Skip()
+
+    def klikTambahPelanggan( self, event ):
+        event.Skip()
+
+    def klikTambahPegawai( self, event ):
+        event.Skip()
+
 
 
 

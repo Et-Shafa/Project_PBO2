@@ -161,7 +161,7 @@ class halaman_utama ( wx.Frame ):
 		self.transaksi.SetSizer( fgSizer3 )
 		self.transaksi.Layout()
 		fgSizer3.Fit( self.transaksi )
-		self.m_notebook5.AddPage( self.transaksi, u"Transaksi", True )
+		self.m_notebook5.AddPage( self.transaksi, u"Transaksi", False )
 		self.jenis = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		fgSizer41 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer41.SetFlexibleDirection( wx.BOTH )
@@ -170,7 +170,7 @@ class halaman_utama ( wx.Frame ):
 		self.dataJenis = wx.grid.Grid( self.jenis, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.dataJenis.CreateGrid( 2, 2 )
+		self.dataJenis.CreateGrid( 5, 5 )
 		self.dataJenis.EnableEditing( True )
 		self.dataJenis.EnableGridLines( True )
 		self.dataJenis.EnableDragGridSize( False )
@@ -207,7 +207,7 @@ class halaman_utama ( wx.Frame ):
 		self.jenis.SetSizer( fgSizer41 )
 		self.jenis.Layout()
 		fgSizer41.Fit( self.jenis )
-		self.m_notebook5.AddPage( self.jenis, u"Jenis Cucian", False )
+		self.m_notebook5.AddPage( self.jenis, u"Jenis Cucian", True )
 		self.pelanggan = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		fgSizer4 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer4.SetFlexibleDirection( wx.BOTH )
@@ -388,8 +388,8 @@ class insrtTransaksi ( wx.Panel ):
 		self.m_button6 = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer2.Add( self.m_button6, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self. = wx.Button( self, wx.ID_ANY, u"Selanjutnya", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer2.Add( self., wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.btnLanjut = wx.Button( self, wx.ID_ANY, u"Selanjutnya", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self.btnLanjut, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 
 		self.SetSizer( gbSizer2 )
