@@ -203,6 +203,7 @@ class tampilanTransaksi ( wx.Panel ):
 		self.Layout()
 
 		# Connect Events
+		self.dataTransaksi.Bind( wx.grid.EVT_GRID_SELECT_CELL, self.dataTransaksiOnGridCmdSelectCell )
 		self.btnTambahTransaksi.Bind( wx.EVT_BUTTON, self.klikTambahTransaksi )
 
 	def __del__( self ):
@@ -210,6 +211,9 @@ class tampilanTransaksi ( wx.Panel ):
 
 
 	# Virtual event handlers, overide them in your derived class
+	def dataTransaksiOnGridCmdSelectCell( self, event ):
+		event.Skip()
+
 	def klikTambahTransaksi( self, event ):
 		event.Skip()
 
@@ -268,6 +272,7 @@ class tampilanJenis ( wx.Panel ):
 		self.Layout()
 
 		# Connect Events
+		self.dataJenis.Bind( wx.grid.EVT_GRID_SELECT_CELL, self.dataJenisOnGridCmdSelectCell )
 		self.btnTambahJenis.Bind( wx.EVT_BUTTON, self.klikTambahJenis )
 
 	def __del__( self ):
@@ -275,6 +280,9 @@ class tampilanJenis ( wx.Panel ):
 
 
 	# Virtual event handlers, overide them in your derived class
+	def dataJenisOnGridCmdSelectCell( self, event ):
+		event.Skip()
+
 	def klikTambahJenis( self, event ):
 		event.Skip()
 
@@ -333,6 +341,7 @@ class tampilanPegawai ( wx.Panel ):
 		self.Layout()
 
 		# Connect Events
+		self.dataPegawai.Bind( wx.grid.EVT_GRID_SELECT_CELL, self.dataPegawaiOnGridCmdSelectCell )
 		self.btnTambahPegawai.Bind( wx.EVT_BUTTON, self.klikTambahPegawai )
 
 	def __del__( self ):
@@ -340,6 +349,9 @@ class tampilanPegawai ( wx.Panel ):
 
 
 	# Virtual event handlers, overide them in your derived class
+	def dataPegawaiOnGridCmdSelectCell( self, event ):
+		event.Skip()
+
 	def klikTambahPegawai( self, event ):
 		event.Skip()
 
@@ -398,6 +410,7 @@ class tampilanPelanggan ( wx.Panel ):
 		self.Layout()
 
 		# Connect Events
+		self.dataPelanggan.Bind( wx.grid.EVT_GRID_SELECT_CELL, self.dataPelangganOnGridCmdSelectCell )
 		self.btnTambahPelanggan.Bind( wx.EVT_BUTTON, self.klikTambahPelanggan )
 
 	def __del__( self ):
@@ -405,6 +418,9 @@ class tampilanPelanggan ( wx.Panel ):
 
 
 	# Virtual event handlers, overide them in your derived class
+	def dataPelangganOnGridCmdSelectCell( self, event ):
+		event.Skip()
+
 	def klikTambahPelanggan( self, event ):
 		event.Skip()
 
@@ -845,14 +861,6 @@ class editJenis ( wx.Panel ):
 		self.m_staticText23.Wrap( -1 )
 
 		gbSizer7.Add( self.m_staticText23, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
-
-		self.m_staticText24 = wx.StaticText( self, wx.ID_ANY, u"ID Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText24.Wrap( -1 )
-
-		gbSizer7.Add( self.m_staticText24, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
-
-		self.inputIdJenis = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer7.Add( self.inputIdJenis, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.m_staticText25 = wx.StaticText( self, wx.ID_ANY, u"Nama Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText25.Wrap( -1 )
