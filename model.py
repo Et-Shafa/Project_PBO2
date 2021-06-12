@@ -66,9 +66,9 @@ class Jenis(DataManager):
         return errMsg
 
 class Pelanggan(DataManager):
-    def setDataJenis(self, id_pelanggan, firstname, lastname, nohp, email):
-        self.query = 'INSERT INTO pelanggan (id_pelanggan, firstname_pelanggan, lastname_pelanggan, nohp_pelanggan, email_pelanggan) VALUES (%i, \'%s\', \'%s\', \'%s\', \'%s\' )'
-        self.query = self.query % (id_pelanggan, firstname, lastname, nohp, email)
+    def setDataPelanggan(self,firstname, lastname, nohp, email):
+        self.query = 'INSERT INTO pelanggan (firstname_pelanggan, lastname_pelanggan, nohp_pelanggan, email_pelanggan) VALUES (%i, \'%s\', \'%s\', \'%s\', \'%s\' )'
+        self.query = self.query % (firstname, lastname, nohp, email)
         if self.isDebug:
             print('self.query : ', self.query )
         errMsg = self.executeQuery(self.query)
@@ -76,27 +76,26 @@ class Pelanggan(DataManager):
 
     def getDataPelanggan(self):
         self.query = 'SELECT id_pelanggan, firstname_pelanggan, lastname_pelanggan, nohp_pelanggan, email_pelanggan from pelanggan'
-        # self.query = self.query % (id_jenis)
         if self.isDebug:
             print('self.query : ', self.query )
-        id_jenis, errMsg = self.executeQuery(self.query, retVal=True)
-        return id_jenis, errMsg
+        id_pelanggan, errMsg = self.executeQuery(self.query, retVal=True)
+        return id_pelanggan, errMsg
 
-    # def updateDataJenis(self,id_jenis, nama_jenis, harga):
-    #     self.query = 'UPDATE jenis SET nama_jenis=\'%s\', harga= %i where id_jenis = \'%s\'' 
-    #     self.query = self.query % (nama_jenis, harga, id_jenis)
-    #     if self.isDebug:
-    #         print('self.query : ', self.query )
-    #     errMsg = self.executeQuery(self.query)
-    #     return errMsg
+    def updateDataPelanggan(self,id_pelanggan,firstname, lastname, nohp, email):
+        self.query = 'UPDATE pelanggan SET firstname_pelanggan = \'%s\', lastname_pelanggan = \'%s\', nohp_pelanggan = \'%s\', email_pelanggan = \'%s\' where id_pelanggan = %i' 
+        self.query = self.query % (nama_jenis, harga, id_jenis)
+        if self.isDebug:
+            print('self.query : ', self.query )
+        errMsg = self.executeQuery(self.query)
+        return errMsg
 
-    # def deleteDataJenis(self,id_jenis):
-    #     self.query = 'DELETE FROM jenis where id_jenis = \'%s\'' 
-    #     self.query = self.query % (id_jenis)
-    #     if self.isDebug:
-    #         print('self.query : ', self.query )
-    #     errMsg = self.executeQuery(self.query)
-    #     return errMsg
+    def deleteDataPelanggan(self,id_pelanggan):
+        self.query = 'DELETE FROM pelanggan where id_pelanggan = \'%s\'' 
+        self.query = self.query % (id_pelanggan)
+        if self.isDebug:
+            print('self.query : ', self.query )
+        errMsg = self.executeQuery(self.query)
+        return errMsg
 
 # class Pegawai(DataManager):
 #     def setDataJenis(self, id_jenis, nama_jenis, harga):
