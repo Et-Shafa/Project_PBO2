@@ -45,7 +45,7 @@
             <property name="minimum_size"></property>
             <property name="name">Login</property>
             <property name="pos"></property>
-            <property name="size">220,159</property>
+            <property name="size">376,186</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass"></property>
             <property name="title"></property>
@@ -492,7 +492,7 @@
             <property name="minimum_size"></property>
             <property name="name">halaman_utama</property>
             <property name="pos"></property>
-            <property name="size">620,304</property>
+            <property name="size">900,500</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass"></property>
             <property name="title"></property>
@@ -876,7 +876,7 @@
             <property name="minimum_size"></property>
             <property name="name">tampilanTransaksi</property>
             <property name="pos"></property>
-            <property name="size">718,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -1150,7 +1150,7 @@
             <property name="minimum_size"></property>
             <property name="name">tampilanJenis</property>
             <property name="pos"></property>
-            <property name="size">708,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -1343,7 +1343,7 @@
                 </object>
             </object>
         </object>
-        <object class="Panel" expanded="1">
+        <object class="Panel" expanded="0">
             <property name="aui_managed">0</property>
             <property name="aui_manager_style">wxAUI_MGR_DEFAULT</property>
             <property name="bg"></property>
@@ -1359,7 +1359,7 @@
             <property name="minimum_size"></property>
             <property name="name">tampilanPegawai</property>
             <property name="pos"></property>
-            <property name="size">641,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -1568,13 +1568,13 @@
             <property name="minimum_size"></property>
             <property name="name">tampilanPelanggan</property>
             <property name="pos"></property>
-            <property name="size">674,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style">wxTAB_TRAVERSAL</property>
-            <object class="wxFlexGridSizer" expanded="0">
+            <object class="wxFlexGridSizer" expanded="1">
                 <property name="cols">2</property>
                 <property name="flexible_direction">wxBOTH</property>
                 <property name="growablecols"></property>
@@ -1675,11 +1675,11 @@
                         <event name="OnGridCmdSelectCell">dataPelangganOnGridCmdSelectCell</event>
                     </object>
                 </object>
-                <object class="sizeritem" expanded="0">
+                <object class="sizeritem" expanded="1">
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND</property>
                     <property name="proportion">1</property>
-                    <object class="wxBoxSizer" expanded="0">
+                    <object class="wxBoxSizer" expanded="1">
                         <property name="minimum_size"></property>
                         <property name="name">bSizer10</property>
                         <property name="orient">wxVERTICAL</property>
@@ -1777,7 +1777,7 @@
             <property name="minimum_size"></property>
             <property name="name">insrtTransaksi</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -2417,7 +2417,7 @@
             <property name="minimum_size"></property>
             <property name="name">insrtTransaksi2</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -3006,7 +3006,7 @@
             <property name="minimum_size"></property>
             <property name="name">insrtJenis</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -3634,7 +3634,7 @@
                 </object>
             </object>
         </object>
-        <object class="Panel" expanded="0">
+        <object class="Panel" expanded="1">
             <property name="aui_managed">0</property>
             <property name="aui_manager_style">wxAUI_MGR_DEFAULT</property>
             <property name="bg"></property>
@@ -3650,13 +3650,13 @@
             <property name="minimum_size"></property>
             <property name="name">insrtPelanggan</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style">wxTAB_TRAVERSAL</property>
-            <object class="wxGridBagSizer" expanded="0">
+            <object class="wxGridBagSizer" expanded="1">
                 <property name="empty_cell_size"></property>
                 <property name="flexible_direction">wxBOTH</property>
                 <property name="growablecols"></property>
@@ -4425,7 +4425,7 @@
             <property name="minimum_size"></property>
             <property name="name">insrtPegawai</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -5462,7 +5462,7 @@
             <property name="minimum_size"></property>
             <property name="name">editTransaksi</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -5826,7 +5826,7 @@
                 </object>
             </object>
         </object>
-        <object class="Panel" expanded="1">
+        <object class="Panel" expanded="0">
             <property name="aui_managed">0</property>
             <property name="aui_manager_style">wxAUI_MGR_DEFAULT</property>
             <property name="bg"></property>
@@ -5842,13 +5842,13 @@
             <property name="minimum_size"></property>
             <property name="name">editJenis</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
             <property name="window_name"></property>
             <property name="window_style">wxTAB_TRAVERSAL</property>
-            <object class="wxGridBagSizer" expanded="1">
+            <object class="wxGridBagSizer" expanded="0">
                 <property name="empty_cell_size"></property>
                 <property name="flexible_direction">wxBOTH</property>
                 <property name="growablecols"></property>
@@ -6339,7 +6339,7 @@
                 </object>
             </object>
         </object>
-        <object class="Panel" expanded="0">
+        <object class="Panel" expanded="1">
             <property name="aui_managed">0</property>
             <property name="aui_manager_style">wxAUI_MGR_DEFAULT</property>
             <property name="bg"></property>
@@ -6355,7 +6355,7 @@
             <property name="minimum_size"></property>
             <property name="name">editPelanggan</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
@@ -7130,7 +7130,7 @@
             <property name="minimum_size"></property>
             <property name="name">editPegawai</property>
             <property name="pos"></property>
-            <property name="size">500,300</property>
+            <property name="size">900,500</property>
             <property name="subclass">; ; forward_declare</property>
             <property name="tooltip"></property>
             <property name="window_extra_style"></property>
