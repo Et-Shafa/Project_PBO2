@@ -111,12 +111,53 @@ class halaman_utama ( wx.Frame ):
 		bSizer5 = wx.BoxSizer( wx.VERTICAL )
 
 		self.m_notebook5 = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.transaksi = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.transaksiPanel = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook5.AddPage( self.transaksiPanel, u"Transaksi", True )
+		self.jenisPanel = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook5.AddPage( self.jenisPanel, u"Jenis Cucian", False )
+		self.pelangganPanel = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook5.AddPage( self.pelangganPanel, u"Pelanggan", False )
+		self.pegawaiPanel = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.m_notebook5.AddPage( self.pegawaiPanel, u"Pegawai", False )
+
+		bSizer5.Add( self.m_notebook5, 1, wx.EXPAND |wx.ALL, 5 )
+
+
+		self.SetSizer( bSizer5 )
+		self.Layout()
+
+		self.Centre( wx.BOTH )
+
+		# Connect Events
+		self.Bind( wx.EVT_MENU, self.klikProfil, id = self.menuProfil.GetId() )
+		self.Bind( wx.EVT_MENU, self.klikLogout, id = self.menuLogout.GetId() )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def klikProfil( self, event ):
+		event.Skip()
+
+	def klikLogout( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class tampilanTransaksi
+###########################################################################
+
+class tampilanTransaksi ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 718,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
 		fgSizer3 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer3.SetFlexibleDirection( wx.BOTH )
 		fgSizer3.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.dataTransaksi = wx.grid.Grid( self.transaksi, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.dataTransaksi = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
 		self.dataTransaksi.CreateGrid( 5, 5 )
@@ -144,12 +185,12 @@ class halaman_utama ( wx.Frame ):
 
 		bSizer8 = wx.BoxSizer( wx.VERTICAL )
 
-		self.btnTambahTransaksi = wx.Button( self.transaksi, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.btnTambahTransaksi = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		self.btnTambahTransaksi.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_PLUS, wx.ART_TOOLBAR ) )
 		bSizer8.Add( self.btnTambahTransaksi, 0, wx.ALL, 5 )
 
-		self.m_searchCtrl1 = wx.SearchCtrl( self.transaksi, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_searchCtrl1 = wx.SearchCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_searchCtrl1.ShowSearchButton( True )
 		self.m_searchCtrl1.ShowCancelButton( False )
 		bSizer8.Add( self.m_searchCtrl1, 0, wx.ALL, 5 )
@@ -158,16 +199,35 @@ class halaman_utama ( wx.Frame ):
 		fgSizer3.Add( bSizer8, 1, wx.EXPAND, 5 )
 
 
-		self.transaksi.SetSizer( fgSizer3 )
-		self.transaksi.Layout()
-		fgSizer3.Fit( self.transaksi )
-		self.m_notebook5.AddPage( self.transaksi, u"Transaksi", False )
-		self.jenis = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+		self.SetSizer( fgSizer3 )
+		self.Layout()
+
+		# Connect Events
+		self.btnTambahTransaksi.Bind( wx.EVT_BUTTON, self.klikTambahTransaksi )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def klikTambahTransaksi( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class tampilanJenis
+###########################################################################
+
+class tampilanJenis ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 708,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
 		fgSizer41 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer41.SetFlexibleDirection( wx.BOTH )
 		fgSizer41.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.dataJenis = wx.grid.Grid( self.jenis, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.dataJenis = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
 		self.dataJenis.CreateGrid( 5, 5 )
@@ -195,7 +255,7 @@ class halaman_utama ( wx.Frame ):
 
 		bSizer101 = wx.BoxSizer( wx.VERTICAL )
 
-		self.btnTambahJenis = wx.Button( self.jenis, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.btnTambahJenis = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		self.btnTambahJenis.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_PLUS, wx.ART_TOOLBAR ) )
 		bSizer101.Add( self.btnTambahJenis, 0, wx.ALL, 5 )
@@ -204,62 +264,35 @@ class halaman_utama ( wx.Frame ):
 		fgSizer41.Add( bSizer101, 1, wx.EXPAND, 5 )
 
 
-		self.jenis.SetSizer( fgSizer41 )
-		self.jenis.Layout()
-		fgSizer41.Fit( self.jenis )
-		self.m_notebook5.AddPage( self.jenis, u"Jenis Cucian", True )
-		self.pelanggan = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		fgSizer4 = wx.FlexGridSizer( 0, 2, 0, 0 )
-		fgSizer4.SetFlexibleDirection( wx.BOTH )
-		fgSizer4.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+		self.SetSizer( fgSizer41 )
+		self.Layout()
 
-		self.dataPelanggan = wx.grid.Grid( self.pelanggan, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		# Connect Events
+		self.btnTambahJenis.Bind( wx.EVT_BUTTON, self.klikTambahJenis )
 
-		# Grid
-		self.dataPelanggan.CreateGrid( 5, 5 )
-		self.dataPelanggan.EnableEditing( True )
-		self.dataPelanggan.EnableGridLines( True )
-		self.dataPelanggan.EnableDragGridSize( False )
-		self.dataPelanggan.SetMargins( 0, 0 )
-
-		# Columns
-		self.dataPelanggan.EnableDragColMove( False )
-		self.dataPelanggan.EnableDragColSize( True )
-		self.dataPelanggan.SetColLabelSize( 30 )
-		self.dataPelanggan.SetColLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
-
-		# Rows
-		self.dataPelanggan.EnableDragRowSize( True )
-		self.dataPelanggan.SetRowLabelSize( 80 )
-		self.dataPelanggan.SetRowLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
-
-		# Label Appearance
-
-		# Cell Defaults
-		self.dataPelanggan.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
-		fgSizer4.Add( self.dataPelanggan, 0, wx.ALL, 5 )
-
-		bSizer10 = wx.BoxSizer( wx.VERTICAL )
-
-		self.btnTambahPelanggan = wx.Button( self.pelanggan, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
-
-		self.btnTambahPelanggan.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_PLUS, wx.ART_TOOLBAR ) )
-		bSizer10.Add( self.btnTambahPelanggan, 0, wx.ALL, 5 )
+	def __del__( self ):
+		pass
 
 
-		fgSizer4.Add( bSizer10, 1, wx.EXPAND, 5 )
+	# Virtual event handlers, overide them in your derived class
+	def klikTambahJenis( self, event ):
+		event.Skip()
 
 
-		self.pelanggan.SetSizer( fgSizer4 )
-		self.pelanggan.Layout()
-		fgSizer4.Fit( self.pelanggan )
-		self.m_notebook5.AddPage( self.pelanggan, u"Pelanggan", False )
-		self.pegawai = wx.Panel( self.m_notebook5, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+###########################################################################
+## Class tampilanPegawai
+###########################################################################
+
+class tampilanPegawai ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 641,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
 		fgSizer5 = wx.FlexGridSizer( 0, 2, 0, 0 )
 		fgSizer5.SetFlexibleDirection( wx.BOTH )
 		fgSizer5.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-		self.dataPegawai = wx.grid.Grid( self.pegawai, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.dataPegawai = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
 		self.dataPegawai.CreateGrid( 5, 5 )
@@ -287,7 +320,7 @@ class halaman_utama ( wx.Frame ):
 
 		bSizer11 = wx.BoxSizer( wx.VERTICAL )
 
-		self.btnTambahPegawai = wx.Button( self.pegawai, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.btnTambahPegawai = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		self.btnTambahPegawai.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_PLUS, wx.ART_TOOLBAR ) )
 		bSizer11.Add( self.btnTambahPegawai, 0, wx.ALL, 5 )
@@ -296,25 +329,10 @@ class halaman_utama ( wx.Frame ):
 		fgSizer5.Add( bSizer11, 1, wx.EXPAND, 5 )
 
 
-		self.pegawai.SetSizer( fgSizer5 )
-		self.pegawai.Layout()
-		fgSizer5.Fit( self.pegawai )
-		self.m_notebook5.AddPage( self.pegawai, u"Pegawai", False )
-
-		bSizer5.Add( self.m_notebook5, 1, wx.EXPAND |wx.ALL, 5 )
-
-
-		self.SetSizer( bSizer5 )
+		self.SetSizer( fgSizer5 )
 		self.Layout()
 
-		self.Centre( wx.BOTH )
-
 		# Connect Events
-		self.Bind( wx.EVT_MENU, self.klikProfil, id = self.menuProfil.GetId() )
-		self.Bind( wx.EVT_MENU, self.klikLogout, id = self.menuLogout.GetId() )
-		self.btnTambahTransaksi.Bind( wx.EVT_BUTTON, self.klikTambahTransaksi )
-		self.btnTambahJenis.Bind( wx.EVT_BUTTON, self.klikTambahJenis )
-		self.btnTambahPelanggan.Bind( wx.EVT_BUTTON, self.klikTambahPelanggan )
 		self.btnTambahPegawai.Bind( wx.EVT_BUTTON, self.klikTambahPegawai )
 
 	def __del__( self ):
@@ -322,22 +340,72 @@ class halaman_utama ( wx.Frame ):
 
 
 	# Virtual event handlers, overide them in your derived class
-	def klikProfil( self, event ):
-		event.Skip()
-
-	def klikLogout( self, event ):
-		event.Skip()
-
-	def klikTambahTransaksi( self, event ):
-		event.Skip()
-
-	def klikTambahJenis( self, event ):
-		event.Skip()
-
-	def klikTambahPelanggan( self, event ):
-		event.Skip()
-
 	def klikTambahPegawai( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class tampilanPelanggan
+###########################################################################
+
+class tampilanPelanggan ( wx.Panel ):
+
+	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 674,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
+		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
+
+		fgSizer4 = wx.FlexGridSizer( 0, 2, 0, 0 )
+		fgSizer4.SetFlexibleDirection( wx.BOTH )
+		fgSizer4.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.dataPelanggan = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+
+		# Grid
+		self.dataPelanggan.CreateGrid( 5, 5 )
+		self.dataPelanggan.EnableEditing( True )
+		self.dataPelanggan.EnableGridLines( True )
+		self.dataPelanggan.EnableDragGridSize( False )
+		self.dataPelanggan.SetMargins( 0, 0 )
+
+		# Columns
+		self.dataPelanggan.EnableDragColMove( False )
+		self.dataPelanggan.EnableDragColSize( True )
+		self.dataPelanggan.SetColLabelSize( 30 )
+		self.dataPelanggan.SetColLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
+
+		# Rows
+		self.dataPelanggan.EnableDragRowSize( True )
+		self.dataPelanggan.SetRowLabelSize( 80 )
+		self.dataPelanggan.SetRowLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
+
+		# Label Appearance
+
+		# Cell Defaults
+		self.dataPelanggan.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		fgSizer4.Add( self.dataPelanggan, 0, wx.ALL, 5 )
+
+		bSizer10 = wx.BoxSizer( wx.VERTICAL )
+
+		self.btnTambahPelanggan = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
+
+		self.btnTambahPelanggan.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_PLUS, wx.ART_TOOLBAR ) )
+		bSizer10.Add( self.btnTambahPelanggan, 0, wx.ALL, 5 )
+
+
+		fgSizer4.Add( bSizer10, 1, wx.EXPAND, 5 )
+
+
+		self.SetSizer( fgSizer4 )
+		self.Layout()
+
+		# Connect Events
+		self.btnTambahPelanggan.Bind( wx.EVT_BUTTON, self.klikTambahPelanggan )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def klikTambahPelanggan( self, event ):
 		event.Skip()
 
 
@@ -435,21 +503,37 @@ class insrtTransaksi2 ( wx.Panel ):
 		self.m_textCtrl9 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer3.Add( self.m_textCtrl9, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_button9 = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer3.Add( self.m_button9, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.tombolKembali, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_button10 = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer3.Add( self.m_button10, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.tombolTambah = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.tombolTambah, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_button11 = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer3.Add( self.m_button11, wx.GBPosition( 3, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.tombolSimpan, wx.GBPosition( 3, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 
 		self.SetSizer( gbSizer3 )
 		self.Layout()
 
+		# Connect Events
+		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
+		self.tombolTambah.Bind( wx.EVT_BUTTON, self.btnTambah )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
+
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnKembali( self, event ):
+		event.Skip()
+
+	def btnTambah( self, event ):
+		event.Skip()
+
+	def btnSimpan( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -461,9 +545,67 @@ class insrtJenis ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		gbSizer4 = wx.GridBagSizer( 0, 0 )
+		gbSizer4.SetFlexibleDirection( wx.BOTH )
+		gbSizer4.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText11 = wx.StaticText( self, wx.ID_ANY, u"Tambah jenis baru", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText11.Wrap( -1 )
+
+		gbSizer4.Add( self.m_staticText11, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText12 = wx.StaticText( self, wx.ID_ANY, u"ID Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText12.Wrap( -1 )
+
+		gbSizer4.Add( self.m_staticText12, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputIdJenis = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer4.Add( self.inputIdJenis, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText13 = wx.StaticText( self, wx.ID_ANY, u"Nama Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText13.Wrap( -1 )
+
+		gbSizer4.Add( self.m_staticText13, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputNamaJenis = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer4.Add( self.inputNamaJenis, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText14 = wx.StaticText( self, wx.ID_ANY, u"Harga", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText14.Wrap( -1 )
+
+		gbSizer4.Add( self.m_staticText14, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputHarga = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer4.Add( self.inputHarga, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+
+		self.tombolKembali.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_GO_BACK, wx.ART_TOOLBAR ) )
+		gbSizer4.Add( self.tombolKembali, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+
+		self.tombolSimpan.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_FILE_SAVE, wx.ART_TOOLBAR ) )
+		gbSizer4.Add( self.tombolSimpan, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer4 )
+		self.Layout()
+
+		# Connect Events
+		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
 
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnKembali( self, event ):
+		event.Skip()
+
+	def btnSimpan( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -475,9 +617,71 @@ class insrtPelanggan ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		gbSizer8 = wx.GridBagSizer( 0, 0 )
+		gbSizer8.SetFlexibleDirection( wx.BOTH )
+		gbSizer8.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText27 = wx.StaticText( self, wx.ID_ANY, u"Tambah data Pelanggan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText27.Wrap( -1 )
+
+		gbSizer8.Add( self.m_staticText27, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText28 = wx.StaticText( self, wx.ID_ANY, u"First Name ", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText28.Wrap( -1 )
+
+		gbSizer8.Add( self.m_staticText28, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputFirstName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer8.Add( self.inputFirstName, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText29 = wx.StaticText( self, wx.ID_ANY, u"Last Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText29.Wrap( -1 )
+
+		gbSizer8.Add( self.m_staticText29, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputLastName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer8.Add( self.inputLastName, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText30 = wx.StaticText( self, wx.ID_ANY, u"No HP", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText30.Wrap( -1 )
+
+		gbSizer8.Add( self.m_staticText30, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputNohp = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer8.Add( self.inputNohp, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText31 = wx.StaticText( self, wx.ID_ANY, u"Email", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText31.Wrap( -1 )
+
+		gbSizer8.Add( self.m_staticText31, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputEmail = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer8.Add( self.inputEmail, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer8.Add( self.tombolSimpan, wx.GBPosition( 5, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer8.Add( self.tombolSimpan, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer8 )
+		self.Layout()
+
+		# Connect Events
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnKembali )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
 
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnKembali( self, event ):
+		event.Skip()
+
+	def btnSimpan( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -489,9 +693,87 @@ class insrtPegawai ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		gbSizer11 = wx.GridBagSizer( 0, 0 )
+		gbSizer11.SetFlexibleDirection( wx.BOTH )
+		gbSizer11.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText54 = wx.StaticText( self, wx.ID_ANY, u"Tambah Data Pegawai ", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText54.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText54, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText55 = wx.StaticText( self, wx.ID_ANY, u"First Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText55.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText55, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputFirstName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputFirstName, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText56 = wx.StaticText( self, wx.ID_ANY, u"Last Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText56.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText56, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputLastName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputLastName, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText57 = wx.StaticText( self, wx.ID_ANY, u"No HP", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText57.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText57, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputNoHP = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputNoHP, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText58 = wx.StaticText( self, wx.ID_ANY, u"Email", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText58.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText58, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputEmail = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputEmail, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText59 = wx.StaticText( self, wx.ID_ANY, u"Username", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText59.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText59, wx.GBPosition( 5, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputUsername = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputUsername, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText60 = wx.StaticText( self, wx.ID_ANY, u"Passwoard", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText60.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText60, wx.GBPosition( 6, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputPasswoard = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputPasswoard, wx.GBPosition( 6, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.tombolKembali, wx.GBPosition( 7, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.tombolSimpan, wx.GBPosition( 7, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer11 )
+		self.Layout()
+
+		# Connect Events
+		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
 
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnKembali( self, event ):
+		event.Skip()
+
+	def btnSimpan( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -503,9 +785,47 @@ class editTransaksi ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		gbSizer13 = wx.GridBagSizer( 0, 0 )
+		gbSizer13.SetFlexibleDirection( wx.BOTH )
+		gbSizer13.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText61 = wx.StaticText( self, wx.ID_ANY, u"Ubah Transaksi", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText61.Wrap( -1 )
+
+		gbSizer13.Add( self.m_staticText61, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText62 = wx.StaticText( self, wx.ID_ANY, u"Tanggal", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText62.Wrap( -1 )
+
+		gbSizer13.Add( self.m_staticText62, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputTanggal = wx.adv.DatePickerCtrl( self, wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
+		gbSizer13.Add( self.inputTanggal, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer13.Add( self.tombolKembali, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer13.Add( self.tombolSimpan, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer13 )
+		self.Layout()
+
+		# Connect Events
+		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.brnSimpan )
 
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnKembali( self, event ):
+		event.Skip()
+
+	def brnSimpan( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -517,9 +837,63 @@ class editJenis ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		gbSizer7 = wx.GridBagSizer( 0, 0 )
+		gbSizer7.SetFlexibleDirection( wx.BOTH )
+		gbSizer7.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText23 = wx.StaticText( self, wx.ID_ANY, u"Edit Data Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText23.Wrap( -1 )
+
+		gbSizer7.Add( self.m_staticText23, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText24 = wx.StaticText( self, wx.ID_ANY, u"ID Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText24.Wrap( -1 )
+
+		gbSizer7.Add( self.m_staticText24, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputIdJenis = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer7.Add( self.inputIdJenis, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText25 = wx.StaticText( self, wx.ID_ANY, u"Nama Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText25.Wrap( -1 )
+
+		gbSizer7.Add( self.m_staticText25, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputNamaJenis = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer7.Add( self.inputNamaJenis, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText26 = wx.StaticText( self, wx.ID_ANY, u"Harga", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText26.Wrap( -1 )
+
+		gbSizer7.Add( self.m_staticText26, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputHarga = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer7.Add( self.inputHarga, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer7.Add( self.tombolKembali, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer7.Add( self.tombolSimpan, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer7 )
+		self.Layout()
+
+		# Connect Events
+		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
 
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnKembali( self, event ):
+		event.Skip()
+
+	def btnSimpan( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -531,9 +905,71 @@ class editPelanggan ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		gbSizer9 = wx.GridBagSizer( 0, 0 )
+		gbSizer9.SetFlexibleDirection( wx.BOTH )
+		gbSizer9.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText34 = wx.StaticText( self, wx.ID_ANY, u"Ubah Data Pelanggan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText34.Wrap( -1 )
+
+		gbSizer9.Add( self.m_staticText34, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText35 = wx.StaticText( self, wx.ID_ANY, u"First Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText35.Wrap( -1 )
+
+		gbSizer9.Add( self.m_staticText35, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputFirstName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer9.Add( self.inputFirstName, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText41 = wx.StaticText( self, wx.ID_ANY, u"Last Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText41.Wrap( -1 )
+
+		gbSizer9.Add( self.m_staticText41, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputLastName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer9.Add( self.inputLastName, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText42 = wx.StaticText( self, wx.ID_ANY, u"No HP", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText42.Wrap( -1 )
+
+		gbSizer9.Add( self.m_staticText42, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputNoHP = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer9.Add( self.inputNoHP, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText43 = wx.StaticText( self, wx.ID_ANY, u"email", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText43.Wrap( -1 )
+
+		gbSizer9.Add( self.m_staticText43, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputEmail = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer9.Add( self.inputEmail, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer9.Add( self.tombolKembali, wx.GBPosition( 5, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer9.Add( self.tombolSimpan, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer9 )
+		self.Layout()
+
+		# Connect Events
+		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
 
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnKembali( self, event ):
+		event.Skip()
+
+	def btnSimpan( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -545,8 +981,70 @@ class editPegawai ( wx.Panel ):
 	def __init__( self, parent, id = wx.ID_ANY, pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.TAB_TRAVERSAL, name = wx.EmptyString ):
 		wx.Panel.__init__ ( self, parent, id = id, pos = pos, size = size, style = style, name = name )
 
+		gbSizer10 = wx.GridBagSizer( 0, 0 )
+		gbSizer10.SetFlexibleDirection( wx.BOTH )
+		gbSizer10.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+		self.m_staticText44 = wx.StaticText( self, wx.ID_ANY, u"Ubah Data Pegawai", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText44.Wrap( -1 )
+
+		gbSizer10.Add( self.m_staticText44, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText45 = wx.StaticText( self, wx.ID_ANY, u"First Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText45.Wrap( -1 )
+
+		gbSizer10.Add( self.m_staticText45, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputFirstName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer10.Add( self.inputFirstName, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText46 = wx.StaticText( self, wx.ID_ANY, u"Last Name", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText46.Wrap( -1 )
+
+		gbSizer10.Add( self.m_staticText46, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputLastName = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer10.Add( self.inputLastName, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText47 = wx.StaticText( self, wx.ID_ANY, u"No HP", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText47.Wrap( -1 )
+
+		gbSizer10.Add( self.m_staticText47, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputNoHP = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer10.Add( self.inputNoHP, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.m_staticText48 = wx.StaticText( self, wx.ID_ANY, u"Email", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText48.Wrap( -1 )
+
+		gbSizer10.Add( self.m_staticText48, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputEmail = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer10.Add( self.inputEmail, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer10.Add( self.tombolKembali, wx.GBPosition( 5, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer10.Add( self.tombolSimpan, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+
+		self.SetSizer( gbSizer10 )
+		self.Layout()
+
+		# Connect Events
+		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnkembali )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
 
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def btnkembali( self, event ):
+		event.Skip()
+
+	def btnSimpan( self, event ):
+		event.Skip()
 
 
