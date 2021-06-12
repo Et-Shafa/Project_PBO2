@@ -41,37 +41,37 @@ class Login(DataManager):
         return errMsg
 
 class Transaksi(DataManager):
-    def setDataJenis(self, id_jenis, nama_jenis, harga):
-        self.query = 'INSERT INTO jenis (id_jenis, nama_jenis, harga) VALUES (\'%s\', \'%s\', %i)'
-        self.query = self.query % (id_jenis, nama_jenis, harga)
+    def setDataJenis(self, id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis):
+        self.query = 'INSERT INTO transaksi (id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis) VALUES (\'%s\', %i, \'%s\', \'%s\', %i, \'%s\', %i)'
+        self.query = self.query % (id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis)
         if self.isDebug:
             print('self.query : ', self.query )
         errMsg = self.executeQuery(self.query)
         return errMsg
 
-#     def getDataJenis(self):
-#         self.query = 'SELECT id_jenis, nama_jenis, harga from jenis'
-#         # self.query = self.query % (id_jenis)
-#         if self.isDebug:
-#             print('self.query : ', self.query )
-#         id_jenis, errMsg = self.executeQuery(self.query, retVal=True)
-#         return id_jenis, errMsg
+    def getDataTransaksi(self):
+        self.query = 'SELECT idtransaksi, id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis from transaksi'
+        # self.query = self.query % (id_jenis)
+        if self.isDebug:
+            print('self.query : ', self.query )
+        idtransaksi, errMsg = self.executeQuery(self.query, retVal=True)
+        return idtransaksi, errMsg
 
-#     def updateDataJenis(self,id_jenis, nama_jenis, harga):
-#         self.query = 'UPDATE jenis SET nama_jenis=\'%s\', harga= %i where id_jenis = \'%s\'' 
-#         self.query = self.query % (nama_jenis, harga, id_jenis)
-#         if self.isDebug:
-#             print('self.query : ', self.query )
-#         errMsg = self.executeQuery(self.query)
-#         return errMsg
+    def updateDataTransaksi(self,idtransaksi, tglselesai):
+        self.query = 'UPDATE transaksi SET tglselesai = \'%s\' where idtransaksi = %i' 
+        self.query = self.query % (tglselesai, idtransaksi)
+        if self.isDebug:
+            print('self.query : ', self.query )
+        errMsg = self.executeQuery(self.query)
+        return errMsg
 
-#     def deleteDataJenis(self,id_jenis):
-#         self.query = 'DELETE FROM jenis where id_jenis = \'%s\'' 
-#         self.query = self.query % (id_jenis)
-#         if self.isDebug:
-#             print('self.query : ', self.query )
-#         errMsg = self.executeQuery(self.query)
-#         return errMsg
+    def deleteDataTransaksi(self,idtransaksi):
+        self.query = 'DELETE FROM transaksi where idtransaksi = %i' 
+        self.query = self.query % (idtransaksi)
+        if self.isDebug:
+            print('self.query : ', self.query )
+        errMsg = self.executeQuery(self.query)
+        return errMsg
 
 class Jenis(DataManager):
     def setDataJenis(self, id_jenis, nama_jenis, harga):

@@ -3,7 +3,9 @@ import view
 import model
 import sys
 
-# class tampilLogin(view.Login):
+# ====================================================================================================================
+# ----------------------------------------------------- Login --------------------------------------------------------
+# ====================================================================================================================
 #     def __init__(self, parent):
 #         view.Login.__init__(self, parent)
 #         self.akses = model.Login()
@@ -85,61 +87,158 @@ import sys
     #     #     dlg= wx.MessageDialog(self, "Jenis berhasil ditambahkan", "Informasi", style=wx.YES_DEFAULT)
     #     #     dlg.ShowModal()
 
-
-
+# ========================================================================================================================
+# ----------------------------------------------------- Transaksi --------------------------------------------------------
+# ========================================================================================================================
 class tampilTransaksi(view.tampilanTransaksi):
     def __init__(self, parent):
         view.tampilanTransaksi.__init__(self, parent.transaksiPanel)
         self.parent = parent
         self.transaksiPanel = parent.transaksiPanel
+        self.transaksi = parent.transaksi
         self.lstIdPerson = []
         self.baris = 0
 
+    def addBtnEditDelete(self):
+        jmlKolom = self.dataTransaksi.GetNumberCols()
+        self.dataTransaksi.AppendCols(2)
+        colEdit = jmlKolom
+        colDelete = jmlKolom + 1
+
+        self.dataTransaksi.SetColLabelValue(colEdit, '')
+        self.dataTransaksi.SetColLabelValue(colDelete, '')
+
+        for row in range(self.baris):
+            self.dataTransaksi.SetCellValue(row, colEdit, 'Edit')
+            self.dataTransaksi.SetCellBackgroundColour(row, colEdit, wx.BLUE)
+            self.dataTransaksi.SetCellTextColour(row, colEdit, wx.WHITE)
+            # self.dataJenis.SetCellAlignment(wx.ALIGN_CENTER, row, colEdit)
+
+            self.dataTransaksi.SetCellValue(row, colDelete, 'Delete')
+            self.dataTransaksi.SetCellBackgroundColour(row, colDelete, wx.RED)
+            self.dataTransaksi.SetCellTextColour(row, colDelete, wx.WHITE)
+            # self.dataJenis.SetCellAlignment(wx.ALIGN_CENTER, row, colDelete)
+        # self.dataTransaksi.Fit()
+
+        self.dataTransaksi.AutoSize()
+        self.Layout()
+
     def initData(self):
-        n_cols = self.dataJenis.GetNumberCols()
-        n_rows = self.dataJenis.GetNumberRows()
+        n_cols = self.dataTransaksi.GetNumberCols()
+        n_rows = self.dataTransaksi.GetNumberRows()
         if n_cols > 0:
-            self.dataJenis.DeleteCols(0, n_cols, True)
+            self.dataTransaksi.DeleteCols(0, n_cols, True)
         if n_rows > 0:
-            self.dataJenis.DeleteRows(0, n_rows, True)
-        koloms = ['ID', 'Jenis', 'Harga']
-        self.dataJenis.AppendCols(len(koloms))
+            self.dataTransaksi.DeleteRows(0, n_rows, True)
+        koloms = ['ID Pegawai', 'ID Pelanggan', 'tglTerima', 'tglSelesai','Total Pakaian', 'Jenis', 'Berat Jenis']
+        self.dataTransaksi.AppendCols(len(koloms))
         
-        self.jns = model.Jenis()
-        daftarJenis = self.jns.getDataJenis()
-        baris = 0
-        self.lstIdPerson = []
+        daftarTransaksi, errMsg = self.parent.transaksi.getDataTransaksi()
+        if errMsg != '':
+            wx.MessageBox(errMsg, 'Terjadi kesalahan')
+
+        self.baris = 0
+        self.lstIdPerson.clear()
         for col in range(len(koloms)):
-            self.dataJenis.SetColLabelValue(col, koloms[col])  # mengubah nama kolom
+            self.dataTransaksi.SetColLabelValue(col, koloms[col])  # mengubah nama kolom
         
-        for jenis_row in daftarJenis:
-            self.dataJenis.AppendRows(1)
-            print(baris, '. ', jenis_row)
-            id_jenis,nama_jenis,harga = jenis_row
-            self.dataJenis.SetCellValue(baris, 0, id_jenis)
-            self.dataJenis.SetCellValue(baris, 1, nama_jenis)
-            self.dataJenis.SetCellValue(baris, 2, str(harga))
-            # self.dataJenis.SetCellAlignment(wx.ALIGN_CENTER, baris,3 )
-            self.lstIdPerson.append(id_jenis)
-            baris += 1
+        for transaksi_row in daftarTransaksi:
+            self.dataTransaksi.AppendRows(1)
+            if self.parent.isDebug:
+                print(self.baris, '. ', transaksi_row)
+            idtransaksi, id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis = transaksi_row
+            self.dataTransaksi.SetCellValue(self.baris, 0, id_pegawai)
+            self.dataTransaksi.SetCellValue(self.baris, 1, str(id_pelanggan))
+            self.dataTransaksi.SetCellValue(self.baris, 2, tglterima)
+            self.dataTransaksi.SetCellValue(self.baris, 3, tglselesai)
+            self.dataTransaksi.SetCellValue(self.baris, 4, str(totalpakaian))
+            self.dataTransaksi.SetCellValue(self.baris, 5, id_jenis)
+            self.dataTransaksi.SetCellValue(self.baris, 6, str(jumlahberatjenis))
+            self.lstIdPerson.append(idtransaksi)
+            self.baris += 1
+
+    def dataTransaksiOnGridCmdSelectCell( self, event ):
+        baris = event.GetRow()
+        kolom = event.GetCol()
+        if self.parent.isDebug:
+            print('baris: ', baris)
+            print('kolom: ', kolom)
+        if baris >= self.baris:
+            return False
+        idtransaksi = self.lstIdPerson[baris]
+        if kolom == 7:
+            self.parent.tampilEditTransaksi.idtransaksi = idtransaksi  # (self.parent, id_person)
+            # id_pegawai = self.dataTransaksi.GetCellValue(baris, 0)
+            # id_pelanggan = self.dataTransaksi.GetCellValue(baris, 1)
+            # tglterima = self.dataTransaksi.GetCellValue(baris, 2)
+            tglselesai = self.dataTransaksi.GetCellValue(baris, 0)
+            # totalpakaian = self.dataTransaksi.GetCellValue(baris,4)
+            # id_jenis = self.dataTransaksi.GetCellValue(baris, 5)
+            # jumlahberatjenis = self.dataTransaksi.GetCellValue(baris, 6)
+            # self.parent.tampilEditTransaksi.isiDatatransaksi(id_pegawai,id_pelanggan,tglterima,tglselesai,totalpakaian,id_jenis,jumlahberatjenis)
+            self.parent.tampilEditTransaksi.isiDatatransaksi(tglselesai)
+
+            self.parent.tampilTransaksi.Show(False)
+            self.parent.tampilEditTransaksi.Show(True)
+        elif kolom == 8:
+            self.parent.deleteDataTransaksi(idtransaksi)
+
 
     def klikTambahTransaksi( self, event ):
-        self.parent.tampilTransaksi(False)
-        self.parent.tampilTambahTransaksi(True)
+        self.parent.tampilTransaksi.Show(False)
+        self.parent.tampilTambahTransaksi.Show(True)
+        self.parent.tampilTambahJenis.inputIdJenis.SetValue('')
+        self.parent.tampilTambahJenis.inputNamaJenis.SetValue('')
+        self.parent.tampilTambahJenis.inputHarga.SetValue('')
+
 
 class tampilTambahTransaksi(view.insrtTransaksi):
-    def __init__(self, parent):
+    def __init__(self, parent, idtransaksi=-1):
         view.insrtTransaksi.__init__(self, parent.transaksiPanel)
         self.parent = parent
+        self.idtransaksi = idtransaksi
+
+    def klikKembali( self, event ):
+        self.parent.tampilTambahTransaksi.Show(False)
+        self.parent.tampilTransaksi.Show(True)
+
+    def klikLanjut( self, event ):
+        self.parent.tampilTambahTransaksi.Show(False)
+        self.parent.tampilTambahTransaksi2.Show(True)
 
 class tampilTambahTransaksi2(view.insrtTransaksi2):
     def __init__(self, parent):
         view.insrtTransaksi2.__init__(self, parent.transaksiPanel)
+        self.parent=parent
+
+    def btnKembali( self, event ):
+        self.parent.tampilTambahTransaksi2.Show(False)
+        self.parent.tampilTambahTransaksi.Show(True)
+
+    def btnTambah( self, event ):
+        event.Skip()
+
+    def btnHome( self, event ):
+        self.parent.tampilTambahTransaksi2.Show(False)
+        self.parent.tampilTransaksi.Show(True)
 
 class tampilEditTransaksi(view.editTransaksi):
     def __init__(self, parent):
         view.editTransaksi.__init__(self, parent.transaksiPanel)
+        self.parent = parent
 
+    def isiDatatransaksi(self, tglselesai):
+        self.datetglSelesai.SetValue(tglselesai)
+
+    def btnKembali( self, event ):
+        self.parent.tampilEditTransaksi.Show(False)
+        self.parent.tampilTransaksi.Show(True)
+
+    def brnSimpan( self, event ):
+        event.Skip()
+# ====================================================================================================================
+# ----------------------------------------------------- Jenis --------------------------------------------------------
+# ====================================================================================================================
 class tampilJenis(view.tampilanJenis):
     def __init__(self, parent):
         view.tampilanJenis.__init__(self, parent.jenisPanel)
@@ -170,12 +269,12 @@ class tampilJenis(view.tampilanJenis):
             # self.dataJenis.SetCellAlignment(wx.ALIGN_CENTER, row, colDelete)
         # self.dataJenis.Fit()
 
-        # self.dataJenis.AutoSize()
+        self.dataJenis.AutoSize()
         # sz = self.dataJenis.GetSize()
         # self.SetSize(sz.GetWidth() + self.btnTambahJenis.GetSize().GetWidth() + 50, sz.GetHeight() + 100)
-        # ~ self.parent.SetMinSize(wx.Size( sz.GetWidth() + self.btnTambah.GetSize().GetWidth()+80, sz.GetHeight() + 180) )
-        # ~ self.parent.Layout()
-        # self.Layout()
+        # self.parent.SetMinSize(wx.Size( sz.GetWidth() + self.btnTambah.GetSize().GetWidth()+80, sz.GetHeight() + 180) )
+        # self.parent.Layout()
+        self.Layout()
 
     def initData(self):
         n_cols = self.dataJenis.GetNumberCols()
@@ -218,9 +317,7 @@ class tampilJenis(view.tampilanJenis):
             return False
         id_jenis = self.lstIdPerson[baris]
         if kolom == 3:
-            # wx.MessageBox('Edit data', 'Informasi')
-            # self.parent.statusBar.SetStatusText('Update data')
-            self.parent.tampilEditJenis.id_jenis = id_jenis  # (self.parent, id_person)
+            self.parent.tampilEditJenis.id_jenis = id_jenis
             idjenis = self.dataJenis.GetCellValue(baris, 0)
             namajenis = self.dataJenis.GetCellValue(baris, 1)
             hrg = self.dataJenis.GetCellValue(baris, 2)
@@ -229,7 +326,6 @@ class tampilJenis(view.tampilanJenis):
             self.parent.tampilJenis.Show(False)
             self.parent.tampilEditJenis.Show(True)
         elif kolom == 4:
-            # self.parent.statusBar.SetStatusText('Hapus data')
             self.parent.deleteDataJenis(id_jenis)
 
     def klikTambahJenis( self, event ):
@@ -302,7 +398,10 @@ class tampilEditJenis(view.editJenis):
     def btnKembali( self, event ):
         self.parent.tampilEditJenis.Show(False)
         self.parent.tampilJenis.Show(True)
-            
+
+# ========================================================================================================================
+# ----------------------------------------------------- Pelanggan --------------------------------------------------------            
+# ========================================================================================================================
 class tampilPelanggan(view.tampilanPelanggan):
     def __init__(self, parent):
         view.tampilanPelanggan.__init__(self, parent.pelangganPanel)
@@ -330,13 +429,9 @@ class tampilPelanggan(view.tampilanPelanggan):
             self.dataPelanggan.SetCellBackgroundColour(row, colDelete, wx.RED)
             self.dataPelanggan.SetCellTextColour(row, colDelete, wx.WHITE)
         #     self.dataPelanggan.SetCellAlignment(wx.ALIGN_CENTER, row, colDelete)
-        self.dataPelanggan.Fit()
+        # self.dataPelanggan.Fit()
 
         self.dataPelanggan.AutoSize()
-        sz = self.dataPelanggan.GetSize()
-        self.SetSize(sz.GetWidth() + self.btnTambahPelanggan.GetSize().GetWidth() + 50, sz.GetHeight() + 100)
-        # ~ self.parent.SetMinSize(wx.Size( sz.GetWidth() + self.btnTambah.GetSize().GetWidth()+80, sz.GetHeight() + 180) )
-        # ~ self.parent.Layout()
         self.Layout()
 
     def initData(self):
@@ -363,12 +458,10 @@ class tampilPelanggan(view.tampilanPelanggan):
             if self.parent.isDebug:
                 print(self.baris, '. ', pelanggan_row)
             id_pelanggan, firstname_pelanggan, lastname_pelanggan, nohp_pelanggan, email_pelanggan = pelanggan_row
-            # self.dataPelanggan.SetCellValue(self.baris, 0, int(id_pelanggan))
             self.dataPelanggan.SetCellValue(self.baris, 0, firstname_pelanggan)
             self.dataPelanggan.SetCellValue(self.baris, 1, lastname_pelanggan)
             self.dataPelanggan.SetCellValue(self.baris, 2, nohp_pelanggan)
             self.dataPelanggan.SetCellValue(self.baris, 3, email_pelanggan)
-            # self.dataPelanggan.SetCellAlignment(wx.ALIGN_CENTER, baris,3 )
             self.lstIdPerson.append(id_pelanggan)
             self.baris += 1
 
@@ -382,8 +475,6 @@ class tampilPelanggan(view.tampilanPelanggan):
             return False
         id_pelanggan = self.lstIdPerson[baris]
         if kolom == 4:
-            # wx.MessageBox('Edit data', 'Informasi')
-            # self.parent.statusBar.SetStatusText('Update data')
             self.parent.tampilEditPelanggan.id_pelanggan = id_pelanggan  # (self.parent, id_person)
             firstname_pelanggan = self.dataPelanggan.GetCellValue(baris, 0)
             lastname_pelanggan = self.dataPelanggan.GetCellValue(baris, 1)
@@ -394,7 +485,6 @@ class tampilPelanggan(view.tampilanPelanggan):
             self.parent.tampilPelanggan.Show(False)
             self.parent.tampilEditPelanggan.Show(True)
         elif kolom == 5:
-            # self.parent.statusBar.SetStatusText('Hapus data')
             self.parent.deleteDataPelanggan(id_pelanggan)
 
     def klikTambahPelanggan( self, event ):
@@ -472,7 +562,9 @@ class tampilEditPelanggan(view.editPelanggan):
         self.parent.tampilEditPelanggan.Show(False)
         self.parent.tampilPelanggan.Show(True)
 
-
+# ======================================================================================================================
+# ----------------------------------------------------- Pegawai --------------------------------------------------------
+# ======================================================================================================================
 class tampilPegawai(view.tampilanPegawai):
     def __init__(self, parent):
         view.tampilanPegawai.__init__(self, parent.pegawaiPanel)
@@ -648,7 +740,9 @@ class tampilEditPegawai(view.editPegawai):
         self.parent.tampilPegawai.Show(True)
 
 
-
+# ============================================================================================================================
+# ----------------------------------------------------- Halaman Utama --------------------------------------------------------
+# ============================================================================================================================
 class tampilhalamanutama(view.halaman_utama):
     def __init__(self, parent):
         view.halaman_utama.__init__(self, parent)
@@ -663,11 +757,16 @@ class tampilhalamanutama(view.halaman_utama):
         self.tampilJenis.initData()
         self.tampilJenis.addBtnEditDelete()
 
-        # self.transaksi = model.Jenis()
-        # self.tampilTransaksi = tampilTransaksi(self)
-        # self.tampilTambahTransaksi = tampilTambahTransaksi(self)
-        # self.tampilTambahTransaksi.Show(False)
-        # self.tampilTransaksi.initData()
+        self.transaksi = model.Transaksi()
+        self.tampilTransaksi = tampilTransaksi(self)
+        self.tampilTambahTransaksi = tampilTambahTransaksi(self)
+        self.tampilTambahTransaksi.Show(False)
+        self.tampilTambahTransaksi2 = tampilTambahTransaksi2(self)
+        self.tampilTambahTransaksi2.Show(False)
+        self.tampilEditTransaksi = tampilEditTransaksi(self)
+        self.tampilEditTransaksi.Show(False)
+        self.tampilTransaksi.initData()
+        self.tampilTransaksi.addBtnEditDelete()
 
         self.pelanggan = model.Pelanggan()
         self.tampilPelanggan = tampilPelanggan(self)
@@ -686,6 +785,53 @@ class tampilhalamanutama(view.halaman_utama):
         self.tampilEditPegawai.Show(False)
         self.tampilPegawai.initData()
         self.tampilPegawai.addBtnEditDelete()
+
+    # CRUD Transaksi
+    # def insertDataJenis(self, id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis):
+    #     errMsg = self.jns.setDataJenis(id_jenis, nama_jenis, int(harga))
+    #     if self.isDebug:
+    #         print('errMsg: ', errMsg)
+    #     if errMsg != '':
+    #         wx.MessageBox(errMsg, 'Terjadi kesalahan')
+    #     else:
+    #         self.tampilJenis.Show(True)
+    #         self.tampilTambahJenis.Show(False)
+    #         self.tampilJenis.initData()
+    #         self.tampilJenis.addBtnEditDelete()
+    #         dlg= wx.MessageDialog(self, "Jenis berhasil ditambahkan", "Informasi", style=wx.YES_DEFAULT)
+    #         dlg.ShowModal()
+
+    def updateDataTransaksi(self, idtransaksi, tglselesai):
+        errMsg = self.transaksi.updateDataTransaksi(idtransaksi, tglselesai)
+        if self.isDebug:
+            print('errMsg: ', errMsg)
+        if errMsg != '':
+            wx.MessageBox(errMsg, 'Terjadi kesalahan')
+        else:
+            self.tampilJenis.Show(True)
+            self.tampilEditJenis.Show(False)
+            self.tampilJenis.initData()
+            self.tampilJenis.addBtnEditDelete()
+            dlg= wx.MessageDialog(self, "Update data jenis berhasil", "Informasi", style=wx.YES_DEFAULT)
+            dlg.ShowModal()
+
+    def deleteDataTransaksi(self, idtransaksi):
+        try:
+            dlg = wx.MessageDialog(self, 'Apakah anda yakin akan menghapus data yang dipilih?', 'Informasi', style=wx.YES_NO)
+            retval = dlg.ShowModal()
+            if retval == wx.ID_YES:
+                errMsg = self.jns.deleteDataTransaksi(idtransaksi)
+                if errMsg != '':
+                    wx.MessageBox(errMsg, 'Terjadi kesalahan')
+                else:
+                    wx.MessageBox('Hapus data berhasil')
+                self.tampilJenis.initData()
+                self.tampilJenis.addBtnEditDelete()
+        except:
+            wx.MessageBox(str(sys.exc_info()), 'Terjadi kesalahan')
+            if self.isDebug:
+                print('error: ', str(sys.exc_info()))
+
 
     # CRUD Jenis
     def insertDataJenis(self, id_jenis, nama_jenis, harga):
