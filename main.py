@@ -476,14 +476,176 @@ class tampilEditPelanggan(view.editPelanggan):
 class tampilPegawai(view.tampilanPegawai):
     def __init__(self, parent):
         view.tampilanPegawai.__init__(self, parent.pegawaiPanel)
+        self.parent = parent
+        self.pegawaiPanel = parent.pegawaiPanel
+        self.pegawai = parent.pegawai
+        self.lstIdPerson = []
+        self.baris = 0
+
+    def addBtnEditDelete(self):
+        jmlKolom = self.dataPegawai.GetNumberCols()
+        self.dataPegawai.AppendCols(2)
+        colEdit = jmlKolom
+        colDelete = jmlKolom + 1
+
+        self.dataPegawai.SetColLabelValue(colEdit, '')
+        self.dataPegawai.SetColLabelValue(colDelete, '')
+
+        for row in range(self.baris):
+            self.dataPegawai.SetCellValue(row, colEdit, 'Edit')
+            self.dataPegawai.SetCellBackgroundColour(row, colEdit, wx.BLUE)
+            self.dataPegawai.SetCellTextColour(row, colEdit, wx.WHITE)
+
+            self.dataPegawai.SetCellValue(row, colDelete, 'Delete')
+            self.dataPegawai.SetCellBackgroundColour(row, colDelete, wx.RED)
+            self.dataPegawai.SetCellTextColour(row, colDelete, wx.WHITE)
+        #     self.dataPegawai.SetCellAlignment(wx.ALIGN_CENTER, row, colDelete)
+        self.dataPegawai.Fit()
+
+        self.dataPegawai.AutoSize()
+        sz = self.dataPegawai.GetSize()
+        self.SetSize(sz.GetWidth() + self.btnTambahPegawai.GetSize().GetWidth() + 50, sz.GetHeight() + 100)
+        # ~ self.parent.SetMinSize(wx.Size( sz.GetWidth() + self.btnTambah.GetSize().GetWidth()+80, sz.GetHeight() + 180) )
+        # ~ self.parent.Layout()
+        self.Layout()
+
+    def initData(self):
+        n_cols = self.dataPegawai.GetNumberCols()
+        n_rows = self.dataPegawai.GetNumberRows()
+        if n_cols > 0:
+            self.dataPegawai.DeleteCols(0, n_cols, True)
+        if n_rows > 0:
+            self.dataPegawai.DeleteRows(0, n_rows, True)
+        koloms = ['ID','firstname', 'lastname', 'phone number', 'email']
+        self.dataPegawai.AppendCols(len(koloms))
+        
+        daftarPegawai, errMsg = self.parent.pegawai.getDataPegawai()
+        if errMsg != '':
+            wx.MessageBox(errMsg, 'Terjadi kesalahan')
+
+        self.baris = 0
+        self.lstIdPerson.clear()
+        for col in range(len(koloms)):
+            self.dataPegawai.SetColLabelValue(col, koloms[col])  # mengubah nama kolom
+        
+        for pegawai_row in daftarPegawai:
+            self.dataPegawai.AppendRows(1)
+            if self.parent.isDebug:
+                print(self.baris, '. ', pegawai_row)
+            id_pegawai, firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai = pegawai_row
+            self.dataPegawai.SetCellValue(self.baris, 0, id_pegawai)
+            self.dataPegawai.SetCellValue(self.baris, 1, firstname_pegawai)
+            self.dataPegawai.SetCellValue(self.baris, 2, lastname_pegawai)
+            self.dataPegawai.SetCellValue(self.baris, 3, nohp_pegawai)
+            self.dataPegawai.SetCellValue(self.baris, 4, email_pegawai)
+            # self.dataPegawai.SetCellAlignment(wx.ALIGN_CENTER, baris,3 )
+            self.lstIdPerson.append(id_pegawai)
+            self.baris += 1
+
+    def dataPegawaiOnGridCmdSelectCell(self, event):
+        baris = event.GetRow()
+        kolom = event.GetCol()
+        if self.parent.isDebug:
+            print('baris: ', baris)
+            print('kolom: ', kolom)
+        if baris >= self.baris:
+            return False
+        id_pegawai = self.lstIdPerson[baris]
+        if kolom == 5:
+            # wx.MessageBox('Edit data', 'Informasi')
+            # self.parent.statusBar.SetStatusText('Update data')
+            self.parent.tampilEditPegawai.id_pegawai = id_pegawai  # (self.parent, id_person)
+            firstname_pegawai = self.dataPegawai.GetCellValue(baris, 1)
+            lastname_pegawai = self.dataPegawai.GetCellValue(baris, 2)
+            nohp_pegawai = self.dataPegawai.GetCellValue(baris, 3)
+            email_pegawai = self.dataPegawai.GetCellValue(baris, 4)
+            self.parent.tampilEditPegawai.isiDatapegawai( firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai)
+
+            self.parent.tampilPegawai.Show(False)
+            self.parent.tampilEditPegawai.Show(True)
+        elif kolom == 6:
+            # self.parent.statusBar.SetStatusText('Hapus data')
+            self.parent.deleteDataPegawai(id_pegawai)
+
+    def klikTambahPegawai( self, event ):
+        self.parent.tampilPegawai.Show(False)
+        self.parent.tampilTambahPegawai.Show(True)
+        self.parent.tampilTambahPegawai.inputID.SetValue('')
+        self.parent.tampilTambahPegawai.inputFirstName.SetValue('')
+        self.parent.tampilTambahPegawai.inputLastName.SetValue('')
+        self.parent.tampilTambahPegawai.inputNoHP.SetValue('')
+        self.parent.tampilTambahPegawai.inputEmail.SetValue('')
+        self.parent.tampilTambahPegawai.inputUsername.SetValue('')
+        self.parent.tampilTambahPegawai.inputPassword.SetValue('')
 
 class tampilTambahPegawai(view.insrtPegawai):
     def __init__(self, parent):
         view.insrtPegawai.__init__(self, parent.pegawaiPanel)
+        self.parent = parent
+
+    def isiDatapegawai(self, id_pegawai, firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai, username, password):
+        self.inputID.SetValue(id_pegawai)
+        self.inputFirstName.SetValue(firstname_pegawai)
+        self.inputLastName.SetValue(lastname_pegawai)
+        self.inputNoHP.SetValue(nohp_pegawai)
+        self.inputEmail.SetValue(email_pegawai)
+        self.inputUsername.SetValue(username)
+        self.inputPassword.SetValue(password)
+
+    def btnSimpan( self, event ):
+        if self.inputFirstName.GetValue() == '' or self.inputNoHP.GetValue() == '':
+            wx.MessageBox('Mohon lengkapi data', 'Terjadi kesalahan')
+            return False
+        # elif self.inputIdJenis.GetValue() in daftarJenis or self.inputNamaJenis.GetValue() in daftarJenis:
+        #     wx.MessageBox('ID atau Nama jenis sudah tersedia', 'Terjadi kesalahan')
+        #     return False
+        # elif type(self.inputHarga.GetValue()) == str:
+        #     wx.MessageBox('Harga yang diinputkan salah', 'Informasi')
+        else:
+            self.parent.insertDataPegawai(self.inputID.GetValue(), self.inputFirstName.GetValue(), self.inputLastName.GetValue(),
+                                            self.inputNoHP.GetValue(), self.inputEmail.GetValue(),self.inputUsername.GetValue(),
+                                            self.inputPassword.GetValue())
+
+
+        # if self.id_jenis == -1:
+        #     self.parent.insertDataJenis(self.inputIdJenis.GetValue(), self.inputNamaJenis.GetValue(),
+        #                               self.inputHarga.GetValue())
+        # else:
+        #     self.parent.updateDataJenis(self.id_person, self.txtNama.GetValue(), self.txtEmail.GetValue(),
+        #                               self.txtNim.GetValue())
+    def btnKembali( self, event ):
+        self.parent.tampilTambahPegawai.Show(False)
+        self.parent.tampilPegawai.Show(True)
+
+    
 
 class tampilEditPegawai(view.editPegawai):
     def __init__(self, parent):
         view.editPegawai.__init__(self, parent.pegawaiPanel)
+        self.parent = parent
+
+    def isiDatapegawai(self, firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai):
+        self.inputFirstName.SetValue(firstname_pegawai)
+        self.inputLastName.SetValue(lastname_pegawai)
+        self.inputNoHP.SetValue(nohp_pegawai)
+        self.inputEmail.SetValue(email_pegawai)
+
+    def btnSimpan( self, event ):
+        if self.inputFirstName.GetValue() == '' or self.inputNoHP.GetValue() == '':
+            wx.MessageBox('Mohon lengkapi data', 'Terjadi kesalahan')
+            return False
+        # elif self.inputIdJenis.GetValue() in daftarJenis or self.inputNamaJenis.GetValue() in daftarJenis:
+        #     wx.MessageBox('ID atau Nama jenis sudah tersedia', 'Terjadi kesalahan')
+        #     return False
+        # elif type(self.inputHarga.GetValue()) == str:
+        #     wx.MessageBox('Harga yang diinputkan salah', 'Informasi')
+        else:
+            self.parent.updateDataPegawai(self.id_pegawai , self.inputFirstName.GetValue(), self.inputLastName.GetValue(),
+                                      self.inputNoHP.GetValue(), self.inputEmail.GetValue())
+
+    def btnkembali( self, event ):
+        self.parent.tampilEditPegawai.Show(False)
+        self.parent.tampilPegawai.Show(True)
 
 
 
@@ -516,11 +678,14 @@ class tampilhalamanutama(view.halaman_utama):
         self.tampilPelanggan.initData()
         self.tampilPelanggan.addBtnEditDelete()
 
-        # self.jns = model.Jenis()
-        # self.tampilJenis = tampilJenis(self)
-        # self.tampilTambahJenis = tampilTambahJenis(self)
-        # self.tampilTambahJenis.Show(False)
-        # self.tampilJenis.initData()
+        self.pegawai = model.Pegawai()
+        self.tampilPegawai = tampilPegawai(self)
+        self.tampilTambahPegawai = tampilTambahPegawai(self)
+        self.tampilTambahPegawai.Show(False)
+        self.tampilEditPegawai = tampilEditPegawai(self)
+        self.tampilEditPegawai.Show(False)
+        self.tampilPegawai.initData()
+        self.tampilPegawai.addBtnEditDelete()
 
     # CRUD Jenis
     def insertDataJenis(self, id_jenis, nama_jenis, harga):
@@ -615,6 +780,52 @@ class tampilhalamanutama(view.halaman_utama):
                 print('error: ', str(sys.exc_info()))
 
 
+    # CRUD Pegawai
+    def insertDataPegawai(self, id_pegawai, firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai, username, password):
+        errMsg = self.pegawai.setDataPegawai(id_pegawai, firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai, username, password)
+        if self.isDebug:
+            print('errMsg: ', errMsg)
+        if errMsg != '':
+            wx.MessageBox(errMsg, 'Terjadi kesalahan')
+        else:
+            self.tampilPegawai.Show(True)
+            self.tampilTambahPegawai.Show(False)
+            self.tampilPegawai.initData()
+            self.tampilPegawai.addBtnEditDelete()
+            dlg= wx.MessageDialog(self, "Pegawai berhasil ditambahkan", "Informasi", style=wx.YES_DEFAULT)
+            dlg.ShowModal()
+
+    def updateDataPegawai(self, id_pegawai, firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai):
+        errMsg = self.pegawai.updateDataPegawai(id_pegawai, firstname_pegawai, lastname_pegawai, nohp_pegawai, email_pegawai)
+        if self.isDebug:
+            print('errMsg: ', errMsg)
+        if errMsg != '':
+            wx.MessageBox(errMsg, 'Terjadi kesalahan')
+        else:
+            self.tampilPegawai.Show(True)
+            self.tampilEditPegawai.Show(False)
+            self.tampilPegawai.initData()
+            self.tampilPegawai.addBtnEditDelete()
+            dlg= wx.MessageDialog(self, "Update data pegawai berhasil", "Informasi", style=wx.YES_DEFAULT)
+            dlg.ShowModal()
+
+    def deleteDataPegawai(self, id_pegawai):
+        try:
+            dlg = wx.MessageDialog(self, 'Apakah anda yakin akan menghapus data yang dipilih?', 'Informasi', style=wx.YES_NO)
+            retval = dlg.ShowModal()
+            if retval == wx.ID_YES:
+                errMsg = self.pegawai.deleteDataPegawai(id_pegawai)
+                if errMsg != '':
+                    wx.MessageBox(errMsg, 'Terjadi kesalahan')
+                else:
+                    wx.MessageBox('Hapus data berhasil')
+                self.tampilPegawai.initData()
+                self.tampilPegawai.addBtnEditDelete()
+        except:
+            wx.MessageBox(str(sys.exc_info()), 'Terjadi kesalahan')
+            if self.isDebug:
+                print('error: ', str(sys.exc_info()))
+
     def klikProfil( self, event ):
         event.Skip()
 
@@ -632,3 +843,5 @@ app = wx.App()
 frame = tampilhalamanutama(parent=None)
 frame.Show()
 app.MainLoop()
+
+
