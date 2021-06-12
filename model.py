@@ -34,7 +34,7 @@ class DataManager:
 
 class Jenis(DataManager):
     def setDataJenis(self, id_jenis, nama_jenis, harga):
-        self.query = 'INSERT INTO jenis (id_jenis, nama_jenis, harga) VALUES (\'%s\', \'%s\', \'%s\')'
+        self.query = 'INSERT INTO jenis (id_jenis, nama_jenis, harga) VALUES (\'%s\', \'%s\', %i)'
         self.query = self.query % (id_jenis, nama_jenis, harga)
         if self.isDebug:
             print('self.query : ', self.query )
@@ -50,15 +50,15 @@ class Jenis(DataManager):
         return id_jenis, errMsg
 
     def updateDataJenis(self,id_jenis, nama_jenis, harga):
-        self.query = 'UPDATE jenis SET id_jenis=\'%s\', nama_jenis=\'%s\', harga=\'%s\' where id_jenis = %i;' 
-        self.query = self.query % (id_jenis, nama_jenis, harga)
+        self.query = 'UPDATE jenis SET nama_jenis=\'%s\', harga= %i where id_jenis = \'%s\'' 
+        self.query = self.query % (nama_jenis, harga, id_jenis)
         if self.isDebug:
             print('self.query : ', self.query )
         errMsg = self.executeQuery(self.query)
         return errMsg
 
     def deleteDataJenis(self,id_jenis):
-        self.query = 'DELETE FROM jenis where id_jenis = %i' 
+        self.query = 'DELETE FROM jenis where id_jenis = \'%s\'' 
         self.query = self.query % (id_jenis)
         if self.isDebug:
             print('self.query : ', self.query )
