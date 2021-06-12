@@ -686,6 +686,14 @@ class insrtPegawai ( wx.Panel ):
 
 		gbSizer11.Add( self.m_staticText54, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
+		self.m_staticText42 = wx.StaticText( self, wx.ID_ANY, u"ID", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText42.Wrap( -1 )
+
+		gbSizer11.Add( self.m_staticText42, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.inputID = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputID, wx.GBPosition( 0, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
 		self.m_staticText55 = wx.StaticText( self, wx.ID_ANY, u"First Name", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText55.Wrap( -1 )
 
@@ -726,13 +734,13 @@ class insrtPegawai ( wx.Panel ):
 		self.inputUsername = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer11.Add( self.inputUsername, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_staticText60 = wx.StaticText( self, wx.ID_ANY, u"Passwoard", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText60 = wx.StaticText( self, wx.ID_ANY, u"Password", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText60.Wrap( -1 )
 
 		gbSizer11.Add( self.m_staticText60, wx.GBPosition( 6, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.inputPasswoard = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer11.Add( self.inputPasswoard, wx.GBPosition( 6, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.inputPassword = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputPassword, wx.GBPosition( 6, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer11.Add( self.tombolKembali, wx.GBPosition( 7, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
