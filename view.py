@@ -318,10 +318,8 @@ class insrtTransaksi2 ( wx.Panel ):
 
 		gbSizer3.Add( self.m_staticText14, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		pilihJenisChoices = []
-		self.pilihJenis = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, pilihJenisChoices, 0 )
-		self.pilihJenis.SetSelection( 0 )
-		gbSizer3.Add( self.pilihJenis, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.inputJenis = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.inputJenis, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.m_staticText15 = wx.StaticText( self, wx.ID_ANY, u"Berat Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText15.Wrap( -1 )
@@ -382,13 +380,13 @@ class editTransaksi ( wx.Panel ):
 
 		gbSizer13.Add( self.m_staticText61, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_staticText62 = wx.StaticText( self, wx.ID_ANY, u"Tanggal", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText62 = wx.StaticText( self, wx.ID_ANY, u"Tanggal Selesai", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText62.Wrap( -1 )
 
 		gbSizer13.Add( self.m_staticText62, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.inputTanggal = wx.adv.DatePickerCtrl( self, wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
-		gbSizer13.Add( self.inputTanggal, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.datetglSelesai = wx.adv.DatePickerCtrl( self, wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
+		gbSizer13.Add( self.datetglSelesai, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer13.Add( self.tombolKembali, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
@@ -402,7 +400,7 @@ class editTransaksi ( wx.Panel ):
 
 		# Connect Events
 		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
-		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.brnSimpan )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
 
 	def __del__( self ):
 		pass
@@ -412,7 +410,7 @@ class editTransaksi ( wx.Panel ):
 	def btnKembali( self, event ):
 		event.Skip()
 
-	def brnSimpan( self, event ):
+	def btnSimpan( self, event ):
 		event.Skip()
 
 
@@ -752,13 +750,13 @@ class insrtPegawai ( wx.Panel ):
 		self.inputUsername = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer11.Add( self.inputUsername, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_staticText60 = wx.StaticText( self, wx.ID_ANY, u"Passwoard", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText60 = wx.StaticText( self, wx.ID_ANY, u"Password", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText60.Wrap( -1 )
 
 		gbSizer11.Add( self.m_staticText60, wx.GBPosition( 6, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.inputPasswoard = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer11.Add( self.inputPasswoard, wx.GBPosition( 6, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.inputPassword = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputPassword, wx.GBPosition( 6, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer11.Add( self.tombolKembali, wx.GBPosition( 7, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
