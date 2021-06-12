@@ -161,7 +161,7 @@ class tampilanTransaksi ( wx.Panel ):
 		self.dataTransaksi = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.dataTransaksi.CreateGrid( 5, 5 )
+		self.dataTransaksi.CreateGrid( 1, 1 )
 		self.dataTransaksi.EnableEditing( True )
 		self.dataTransaksi.EnableGridLines( True )
 		self.dataTransaksi.EnableDragGridSize( False )
@@ -191,10 +191,10 @@ class tampilanTransaksi ( wx.Panel ):
 		self.btnTambahTransaksi.SetBitmap( wx.ArtProvider.GetBitmap( wx.ART_PLUS, wx.ART_TOOLBAR ) )
 		bSizer8.Add( self.btnTambahTransaksi, 0, wx.ALL, 5 )
 
-		self.m_searchCtrl1 = wx.SearchCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_searchCtrl1.ShowSearchButton( True )
-		self.m_searchCtrl1.ShowCancelButton( False )
-		bSizer8.Add( self.m_searchCtrl1, 0, wx.ALL, 5 )
+		self.cariTransaksi = wx.SearchCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.cariTransaksi.ShowSearchButton( True )
+		self.cariTransaksi.ShowCancelButton( False )
+		bSizer8.Add( self.cariTransaksi, 0, wx.ALL, 5 )
 
 
 		fgSizer3.Add( bSizer8, 1, wx.EXPAND, 5 )
@@ -242,39 +242,57 @@ class insrtTransaksi ( wx.Panel ):
 
 		gbSizer2.Add( self.m_staticText5, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		m_choice2Choices = []
-		self.m_choice2 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice2Choices, 0 )
-		self.m_choice2.SetSelection( 0 )
-		gbSizer2.Add( self.m_choice2, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.inputIdPelanggan = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self.inputIdPelanggan, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.m_staticText6 = wx.StaticText( self, wx.ID_ANY, u"Total Pakaian", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText6.Wrap( -1 )
 
 		gbSizer2.Add( self.m_staticText6, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_textCtrl6 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer2.Add( self.m_textCtrl6, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.inputTotalPakaian = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self.inputTotalPakaian, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_staticText7 = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_staticText7.Wrap( -1 )
+		self.txttanggalterima = wx.StaticText( self, wx.ID_ANY, u"Tanggal Terima", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.txttanggalterima.Wrap( -1 )
 
-		gbSizer2.Add( self.m_staticText7, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		gbSizer2.Add( self.txttanggalterima, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_datePicker2 = wx.adv.DatePickerCtrl( self, wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
-		gbSizer2.Add( self.m_datePicker2, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.txtselesai = wx.StaticText( self, wx.ID_ANY, u"Tanggal Selesai", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.txtselesai.Wrap( -1 )
 
-		self.m_button6 = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer2.Add( self.m_button6, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		gbSizer2.Add( self.txtselesai, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.datetglSelesai = wx.adv.DatePickerCtrl( self, wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
+		gbSizer2.Add( self.datetglSelesai, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.datetglTerima = wx.adv.DatePickerCtrl( self, wx.ID_ANY, wx.DefaultDateTime, wx.DefaultPosition, wx.DefaultSize, wx.adv.DP_DEFAULT )
+		gbSizer2.Add( self.datetglTerima, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+
+		self.btnKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer2.Add( self.btnKembali, wx.GBPosition( 5, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.btnLanjut = wx.Button( self, wx.ID_ANY, u"Selanjutnya", wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer2.Add( self.btnLanjut, wx.GBPosition( 4, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		gbSizer2.Add( self.btnLanjut, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 
 		self.SetSizer( gbSizer2 )
 		self.Layout()
 
+		# Connect Events
+		self.btnKembali.Bind( wx.EVT_BUTTON, self.klikKembali )
+		self.btnLanjut.Bind( wx.EVT_BUTTON, self.klikLanjut )
+
 	def __del__( self ):
 		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def klikKembali( self, event ):
+		event.Skip()
+
+	def klikLanjut( self, event ):
+		event.Skip()
 
 
 ###########################################################################
@@ -295,23 +313,23 @@ class insrtTransaksi2 ( wx.Panel ):
 
 		gbSizer3.Add( self.m_staticText4, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_staticText14 = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText14 = wx.StaticText( self, wx.ID_ANY, u"Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText14.Wrap( -1 )
 
 		gbSizer3.Add( self.m_staticText14, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		m_choice4Choices = []
-		self.m_choice4 = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_choice4Choices, 0 )
-		self.m_choice4.SetSelection( 0 )
-		gbSizer3.Add( self.m_choice4, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		pilihJenisChoices = []
+		self.pilihJenis = wx.Choice( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, pilihJenisChoices, 0 )
+		self.pilihJenis.SetSelection( 0 )
+		gbSizer3.Add( self.pilihJenis, wx.GBPosition( 1, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_staticText15 = wx.StaticText( self, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText15 = wx.StaticText( self, wx.ID_ANY, u"Berat Jenis", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText15.Wrap( -1 )
 
 		gbSizer3.Add( self.m_staticText15, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_textCtrl9 = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer3.Add( self.m_textCtrl9, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.inputBeratJenis = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer3.Add( self.inputBeratJenis, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer3.Add( self.tombolKembali, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
@@ -319,7 +337,7 @@ class insrtTransaksi2 ( wx.Panel ):
 		self.tombolTambah = wx.Button( self, wx.ID_ANY, u"Tambah", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer3.Add( self.tombolTambah, wx.GBPosition( 3, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Simpan", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.tombolSimpan = wx.Button( self, wx.ID_ANY, u"Halaman Utama", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer3.Add( self.tombolSimpan, wx.GBPosition( 3, 2 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 
@@ -329,7 +347,7 @@ class insrtTransaksi2 ( wx.Panel ):
 		# Connect Events
 		self.tombolKembali.Bind( wx.EVT_BUTTON, self.btnKembali )
 		self.tombolTambah.Bind( wx.EVT_BUTTON, self.btnTambah )
-		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnSimpan )
+		self.tombolSimpan.Bind( wx.EVT_BUTTON, self.btnHome )
 
 	def __del__( self ):
 		pass
@@ -342,7 +360,7 @@ class insrtTransaksi2 ( wx.Panel ):
 	def btnTambah( self, event ):
 		event.Skip()
 
-	def btnSimpan( self, event ):
+	def btnHome( self, event ):
 		event.Skip()
 
 
@@ -414,7 +432,7 @@ class tampilanJenis ( wx.Panel ):
 		self.dataJenis = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.dataJenis.CreateGrid( 5, 5 )
+		self.dataJenis.CreateGrid( 1, 1 )
 		self.dataJenis.EnableEditing( True )
 		self.dataJenis.EnableGridLines( True )
 		self.dataJenis.EnableDragGridSize( False )
@@ -615,7 +633,7 @@ class tampilanPegawai ( wx.Panel ):
 		self.dataPegawai = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.dataPegawai.CreateGrid( 5, 5 )
+		self.dataPegawai.CreateGrid( 1, 1 )
 		self.dataPegawai.EnableEditing( True )
 		self.dataPegawai.EnableGridLines( True )
 		self.dataPegawai.EnableDragGridSize( False )
@@ -734,13 +752,13 @@ class insrtPegawai ( wx.Panel ):
 		self.inputUsername = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer11.Add( self.inputUsername, wx.GBPosition( 5, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.m_staticText60 = wx.StaticText( self, wx.ID_ANY, u"Password", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText60 = wx.StaticText( self, wx.ID_ANY, u"Passwoard", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText60.Wrap( -1 )
 
 		gbSizer11.Add( self.m_staticText60, wx.GBPosition( 6, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
-		self.inputPassword = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		gbSizer11.Add( self.inputPassword, wx.GBPosition( 6, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		self.inputPasswoard = wx.TextCtrl( self, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		gbSizer11.Add( self.inputPasswoard, wx.GBPosition( 6, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 
 		self.tombolKembali = wx.Button( self, wx.ID_ANY, u"Kembali", wx.DefaultPosition, wx.DefaultSize, 0 )
 		gbSizer11.Add( self.tombolKembali, wx.GBPosition( 7, 0 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
@@ -860,7 +878,7 @@ class tampilanPelanggan ( wx.Panel ):
 		self.dataPelanggan = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.dataPelanggan.CreateGrid( 5, 8 )
+		self.dataPelanggan.CreateGrid( 1, 1 )
 		self.dataPelanggan.EnableEditing( True )
 		self.dataPelanggan.EnableGridLines( True )
 		self.dataPelanggan.EnableDragGridSize( False )
