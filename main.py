@@ -2,90 +2,77 @@ import wx
 import view
 import model
 import sys
+from datetime import datetime as dtm
+
+# saat_ini = dtm.now()
+# saat_ini =saat_ini.strftime('%d/%m/%Y')
+# print(type(saat_ini))
+
 
 # ====================================================================================================================
 # ----------------------------------------------------- Login --------------------------------------------------------
 # ====================================================================================================================
-#     def __init__(self, parent):
-#         view.Login.__init__(self, parent)
-#         self.akses = model.Login()
-#         self.userPass = model.Pegawai()
-#         self.arrUsernames = []
-#         self.arrPasss = []
-
-#     def dataInit(self):
-#         daftarData = .getDataJenis()
-#         baris = 0
-#         a=[]
-#         for jenis_row in daftarJenis:
-#             for a in jenis_row:
-#                 print(a[0])
-
-#     def klikLogin( self, event ):
-#         if self.inpUsername.GetValue() == '' or self.inpPass.GetValue()=='':
-#             wx.MessageBox('Mohon lengkapi data', 'Login gagal')
-#         else:
-#             self.Destroy()
-#             halamanUtama = tampilhalamanutama(None)
-#             halamanUtama.Show()
-
-# jns = Jenis()
-# daftarJenis = jns.getDataJenis()
-# baris = 0
-# a=[]
-# for jenis_row in daftarJenis:
-#     for a in jenis_row:
-#         print(a[0])
-
-#         self.jns = model.Jenis()
-#         daftarJenis = self.jns.getDataJenis()
-#         baris = 0
-        # self.lstIdPerson = []
-        # for col in range(len(koloms)):
-        #     self.dataJenis.SetColLabelValue(col, koloms[col])  # mengubah nama kolom
+class tampilLogin(view.Login):
+    def __init__(self, parent):
+        view.Login.__init__(self, parent)
+        self.isDebug = False
+        self.akses = model.ManageLogin()
+        self.userPass = model.Pegawai()
+        self.parent=parent
         
-        # for jenis_row in daftarJenis:
-        #     self.dataJenis.AppendRows(1)
-        #     print(baris, '. ', jenis_row)
-        #     id_jenis,nama_jenis,harga = jenis_row
-        #     self.dataJenis.SetCellValue(baris, 0, id_jenis)
-        #     self.dataJenis.SetCellValue(baris, 1, nama_jenis)
-        #     self.dataJenis.SetCellValue(baris, 2, str(harga))
-        #     # self.dataJenis.SetCellAlignment(wx.ALIGN_CENTER, baris,3 )
-        #     self.lstIdPerson.append(id_jenis)
-        #     baris += 1
 
-        # if nim in nims:
-        #     idx = nims.index(nim)
-        #     if passw == passws[idx]:
-        #         halamanUtama = home(None)
-        #         halamanUtama.ket.SetLabel(
-        #             "Nama : {} \nNIM : {} \nEmail :{}".format(names[idx], nims[idx], emails[idx])
-        #         )
-        #         self.Destroy()
-        #         halamanUtama.Show()
-        #     else:
-        #         dlg= wx.MessageDialog(self, "NIM atau Password yang anda masukkan kurang tepat", "Informasi", style=wx.YES_DEFAULT)
-        #         dlg.ShowModal()
+    def klikLogin( self, event ):
+        self.daftarusepas=self.akses.getUsernamePass()
+        self.baris = 0
+        self.arrid = []
+        self.arrUsernames = []
+        self.arrPasss = []
+        for self.usepas_row in self.daftarusepas:
+            for self.a in self.usepas_row:
+                self.arrid.append(self.a[0])
+                self.arrUsernames.append(self.a[5])
+                self.arrPasss.append(self.a[6])
+   
+        if self.inpUsername.GetValue() == '' or self.inpPass.GetValue()=='':
+            wx.MessageBox('Mohon lengkapi data', 'Login gagal')
+        elif self.inpUsername.GetValue() in self.arrUsernames:
+            indx = self.arrUsernames.index(self.inpUsername.GetValue())
+            if self.inpPass.GetValue() == self.arrPasss[indx]:
+                saat_ini = dtm.now()
+                saat_ini =saat_ini.strftime('%d/%m/%Y')
+                # self.catatAkses('coba',111)
+                # self.catatAkses(self.arrid[indx], saat_ini)
+                errMsg = self.akses.setAkses(self.arrid[indx], saat_ini)
+
+                # self.Destroy()
+                # self.halamanUtama = tampilhalamanutama(None)
+                # self.halamanUtama.Show()
+                # self.parent.catatAkses(self.arrid[indx], self.saat_ini)
+                if self.isDebug:
+                    print('errMsg: ', errMsg)
+                if errMsg != '':
+                    wx.MessageBox(errMsg, 'Terjadi kesalahan')
+                else:
+                    self.Destroy()
+                    self.halamanUtama = tampilhalamanutama(None)
+                    self.halamanUtama.Show()
+            else:
+                wx.MessageBox('Password salah', 'Gagal Login')
+        else:
+            wx.MessageBox('Username atau password salah', 'Gagal Login')
+
+
+    def catatAkses(self,id_pegawai, tgl_login):
+        self.akses.setAkses(id_pegawai, tgl_login)
+        # errMsg = self.akses.setAkses(id_pegawai, tgl_login)
+        # if self.isDebug:
+        #     print('errMsg: ', errMsg)
+        # if errMsg != '':
+        #     wx.MessageBox(errMsg, 'Terjadi kesalahan')
         # else:
-        #     dlg = wx.MessageDialog(self, "NIM atau Password yang anda masukkan kurang tepat", "Informasi",
-        #                            style=wx.YES_DEFAULT)
-        #     dlg.ShowModal()
-
-
-    # def catatAkses(self,id_pegawai, tgl_login, tgl_logout):
-    #     errMsg = self.akses.setAkses(id_pegawai, tgl_login, tgl_logout)
-    #     if self.isDebug:
-    #         print('errMsg: ', errMsg)
-    #     if errMsg != '':
-    #         wx.MessageBox(errMsg, 'Terjadi kesalahan')
-    #     # else:
-    #     #     self.tampilJenis.Show(True)
-    #     #     self.tampilTambahJenis.Show(False)
-    #     #     self.tampilJenis.initData()
-    #     #     self.tampilJenis.addBtnEditDelete()
-    #     #     dlg= wx.MessageDialog(self, "Jenis berhasil ditambahkan", "Informasi", style=wx.YES_DEFAULT)
-    #     #     dlg.ShowModal()
+        #     self.Destroy()
+        #     # self.halamanUtama = tampilhalamanutama(None)
+        #     self.halamanUtama.Show()
 
 # ========================================================================================================================
 # ----------------------------------------------------- Transaksi --------------------------------------------------------
@@ -171,7 +158,7 @@ class tampilTransaksi(view.tampilanTransaksi):
             # id_pegawai = self.dataTransaksi.GetCellValue(baris, 0)
             # id_pelanggan = self.dataTransaksi.GetCellValue(baris, 1)
             # tglterima = self.dataTransaksi.GetCellValue(baris, 2)
-            tglselesai = self.dataTransaksi.GetCellValue(baris, 0)
+            tglselesai = self.dataTransaksi.GetCellValue(baris, 3)
             # totalpakaian = self.dataTransaksi.GetCellValue(baris,4)
             # id_jenis = self.dataTransaksi.GetCellValue(baris, 5)
             # jumlahberatjenis = self.dataTransaksi.GetCellValue(baris, 6)
@@ -203,8 +190,16 @@ class tampilTambahTransaksi(view.insrtTransaksi):
         self.parent.tampilTransaksi.Show(True)
 
     def klikLanjut( self, event ):
-        self.parent.tampilTambahTransaksi.Show(False)
-        self.parent.tampilTambahTransaksi2.Show(True)
+        if self.inputIdPelanggan.GetValue() == '' or self.inputTotalPakaian.GetValue() == '' or self.datetglTerima.GetValue() == '':
+            wx.MessageBox('Mohon lengkapi data sebelum melanjutkan', 'Informasi')
+        else:
+            # self.idpelanggan = self.inputIdPelanggan.GetValue()
+            # self.totalpakaian = self.inputTotalPakaian.GetValue()
+            # self.tglterima =self.datetglTerima.GetValue()
+            # self.tglselesai = self.datetglSelesai.GetValue()
+            self.parent.tampilTambahTransaksi.Show(False)
+            self.parent.tampilTambahTransaksi2.Show(True)
+
 
 class tampilTambahTransaksi2(view.insrtTransaksi2):
     def __init__(self, parent):
@@ -216,7 +211,12 @@ class tampilTambahTransaksi2(view.insrtTransaksi2):
         self.parent.tampilTambahTransaksi.Show(True)
 
     def btnTambah( self, event ):
-        event.Skip()
+        if self.inputJenis.GetValue() == '' or self.inputBeratJenis.GetValue() == '':
+            wx.MessageBox('Mohon lengkapi data', 'Terjadi kesalahan')
+            return False
+        else:
+            self.parent.insertDataTransaksi(self.inputIdPelanggan.GetValue(),self.inputTotalPakaian.GetValue(),
+             self.datetglTerima.GetValue(),self.datetglSelesai.GetValue(),self.inputJenis.GetValue(),self.inputBeratJenis.GetValue() )
 
     def btnHome( self, event ):
         self.parent.tampilTambahTransaksi2.Show(False)
@@ -228,14 +228,23 @@ class tampilEditTransaksi(view.editTransaksi):
         self.parent = parent
 
     def isiDatatransaksi(self, tglselesai):
-        self.datetglSelesai.SetValue(tglselesai)
+        # self.datetglSelesai.SetValue(tglselesai)
+        conv= dtm.strptime(tglselesai,'%d-%m-%y %H:%M:%S')
+        self.datetglSelesai.SetValue(conv)
 
     def btnKembali( self, event ):
         self.parent.tampilEditTransaksi.Show(False)
         self.parent.tampilTransaksi.Show(True)
 
-    def brnSimpan( self, event ):
-        event.Skip()
+    def btnSimpan( self, event ):
+        if self.datetglSelesai.GetValue() == '':
+            wx.MessageBox('Mohon lengkapi data', 'Terjadi kesalahan')
+            return False
+        else:
+            # conv= dtm.strptime(tglselesai,'%Y-%m-%d')
+            # self.datetglSelesai.SetValue(conv)
+            self.parent.updateDataTransaksi(self.idtransaksi, self.datetglSelesai.GetValue())
+
 # ====================================================================================================================
 # ----------------------------------------------------- Jenis --------------------------------------------------------
 # ====================================================================================================================
@@ -354,22 +363,10 @@ class tampilTambahJenis(view.insrtJenis):
         if self.inputIdJenis.GetValue() == '' or self.inputNamaJenis.GetValue() == '' or self.inputHarga.GetValue() == '':
             wx.MessageBox('Mohon lengkapi data', 'Terjadi kesalahan')
             return False
-        # elif self.inputIdJenis.GetValue() in daftarJenis or self.inputNamaJenis.GetValue() in daftarJenis:
-        #     wx.MessageBox('ID atau Nama jenis sudah tersedia', 'Terjadi kesalahan')
-        #     return False
-        # elif type(self.inputHarga.GetValue()) == str:
-        #     wx.MessageBox('Harga yang diinputkan salah', 'Informasi')
+
         else:
             self.parent.insertDataJenis(self.inputIdJenis.GetValue(), self.inputNamaJenis.GetValue(),
                                       self.inputHarga.GetValue())
-
-
-        # if self.id_jenis == -1:
-        #     self.parent.insertDataJenis(self.inputIdJenis.GetValue(), self.inputNamaJenis.GetValue(),
-        #                               self.inputHarga.GetValue())
-        # else:
-        #     self.parent.updateDataJenis(self.id_person, self.txtNama.GetValue(), self.txtEmail.GetValue(),
-        #                               self.txtNim.GetValue())
 
     
 
@@ -517,22 +514,9 @@ class tampilTambahPelanggan(view.insrtPelanggan):
         if self.inputFirstName.GetValue() == '' or self.inputNohp.GetValue() == '':
             wx.MessageBox('Mohon lengkapi data', 'Terjadi kesalahan')
             return False
-        # elif self.inputIdJenis.GetValue() in daftarJenis or self.inputNamaJenis.GetValue() in daftarJenis:
-        #     wx.MessageBox('ID atau Nama jenis sudah tersedia', 'Terjadi kesalahan')
-        #     return False
-        # elif type(self.inputHarga.GetValue()) == str:
-        #     wx.MessageBox('Harga yang diinputkan salah', 'Informasi')
         else:
             self.parent.insertDataPelanggan(self.inputFirstName.GetValue(), self.inputLastName.GetValue(),
                                             self.inputNohp.GetValue(), self.inputEmail.GetValue())
-
-
-        # if self.id_jenis == -1:
-        #     self.parent.insertDataJenis(self.inputIdJenis.GetValue(), self.inputNamaJenis.GetValue(),
-        #                               self.inputHarga.GetValue())
-        # else:
-        #     self.parent.updateDataJenis(self.id_person, self.txtNama.GetValue(), self.txtEmail.GetValue(),
-        #                               self.txtNim.GetValue())
 
 class tampilEditPelanggan(view.editPelanggan):
     def __init__(self, parent):
@@ -549,11 +533,6 @@ class tampilEditPelanggan(view.editPelanggan):
         if self.inputFirstName.GetValue() == '' or self.inputNohp.GetValue() == '':
             wx.MessageBox('Mohon lengkapi data', 'Terjadi kesalahan')
             return False
-        # elif self.inputIdJenis.GetValue() in daftarJenis or self.inputNamaJenis.GetValue() in daftarJenis:
-        #     wx.MessageBox('ID atau Nama jenis sudah tersedia', 'Terjadi kesalahan')
-        #     return False
-        # elif type(self.inputHarga.GetValue()) == str:
-        #     wx.MessageBox('Harga yang diinputkan salah', 'Informasi')
         else:
             self.parent.updateDataPelanggan(self.id_pelanggan , self.inputFirstName.GetValue(), self.inputLastName.GetValue(),
                                       self.inputNohp.GetValue(), self.inputEmail.GetValue())
@@ -747,6 +726,9 @@ class tampilhalamanutama(view.halaman_utama):
     def __init__(self, parent):
         view.halaman_utama.__init__(self, parent)
         self.isDebug = False
+        # self.akses = model.ManageLogin()
+        # self.aself.akses.geAkses()
+        # self.tampilUsername.SetValue()
 
         self.jns = model.Jenis()
         self.tampilJenis = tampilJenis(self)
@@ -787,19 +769,19 @@ class tampilhalamanutama(view.halaman_utama):
         self.tampilPegawai.addBtnEditDelete()
 
     # CRUD Transaksi
-    # def insertDataJenis(self, id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis):
-    #     errMsg = self.jns.setDataJenis(id_jenis, nama_jenis, int(harga))
-    #     if self.isDebug:
-    #         print('errMsg: ', errMsg)
-    #     if errMsg != '':
-    #         wx.MessageBox(errMsg, 'Terjadi kesalahan')
-    #     else:
-    #         self.tampilJenis.Show(True)
-    #         self.tampilTambahJenis.Show(False)
-    #         self.tampilJenis.initData()
-    #         self.tampilJenis.addBtnEditDelete()
-    #         dlg= wx.MessageDialog(self, "Jenis berhasil ditambahkan", "Informasi", style=wx.YES_DEFAULT)
-    #         dlg.ShowModal()
+    def insertDataTransaksi(self, id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis):
+        errMsg = self.transaksi.setDataJenis(id_pegawai, id_pelanggan, tglterima, tglselesai, totalpakaian, id_jenis, jumlahberatjenis)
+        if self.isDebug:
+            print('errMsg: ', errMsg)
+        if errMsg != '':
+            wx.MessageBox(errMsg, 'Terjadi kesalahan')
+        else:
+            self.tampilTransaksi.Show(True)
+            self.tampilTransaksi.Show(False)
+            self.tampilTransaksi.initData()
+            self.tampilTransaksi.addBtnEditDelete()
+            dlg= wx.MessageDialog(self, "Jenis berhasil ditambahkan", "Informasi", style=wx.YES_DEFAULT)
+            dlg.ShowModal()
 
     def updateDataTransaksi(self, idtransaksi, tglselesai):
         errMsg = self.transaksi.updateDataTransaksi(idtransaksi, tglselesai)
@@ -808,10 +790,10 @@ class tampilhalamanutama(view.halaman_utama):
         if errMsg != '':
             wx.MessageBox(errMsg, 'Terjadi kesalahan')
         else:
-            self.tampilJenis.Show(True)
-            self.tampilEditJenis.Show(False)
-            self.tampilJenis.initData()
-            self.tampilJenis.addBtnEditDelete()
+            self.tampilTransaksi.Show(True)
+            self.tampilEditTransaksi.Show(False)
+            self.tampilTransaksi.initData()
+            self.tampilTransaksi.addBtnEditDelete()
             dlg= wx.MessageDialog(self, "Update data jenis berhasil", "Informasi", style=wx.YES_DEFAULT)
             dlg.ShowModal()
 
@@ -989,5 +971,6 @@ app = wx.App()
 frame = tampilhalamanutama(parent=None)
 frame.Show()
 app.MainLoop()
+
 
 
